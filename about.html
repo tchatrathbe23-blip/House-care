@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HouseCare | About Us</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <script src="chatbot.js" defer></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+
+      <div class="logo">House<span>Care</span></div>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html" class="active">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="track.html">Track Order</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div id="themeToggle" class="icon-pill">🌙</div>
+        <button class="book-btn" data-open-booking>Book Now</button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="page container">
+
+    <!-- Header -->
+    <header class="page-header">
+      <h1>About HouseCare</h1>
+      <p class="section-subtitle">Making homes happier, safer and cleaner since 2020.</p>
+    </header>
+
+    <!-- About -->
+    <section class="card about-section">
+      <div class="about-content">
+        <img src="housecare.jpg" alt="About HouseCare" class="about-img" />
+
+        <div class="about-text">
+          <h2>Our Story</h2>
+          <p>
+            HouseCare began with a simple observation: most people struggle to find reliable
+            and professional help for everyday home services. We set out to fix that by building
+            a platform that brings verified experts straight to your doorstep.
+          </p>
+
+          <p>
+            Today, we serve thousands of households with cleaning, electrical, plumbing and
+            pest control services while maintaining strict quality and safety standards.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline-section">
+      <h2 class="section-title">How We Grew</h2>
+
+      <div class="timeline">
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <h3>2020</h3>
+            <p>Launched in one city with just 10 professionals on the platform.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <h3>2021</h3>
+            <p>Expanded to cleaning, plumbing and electrical services with 1,000+ customers.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <h3>2023</h3>
+            <p>Introduced contactless payments and real-time service tracking.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <h3>2024</h3>
+            <p>Crossed 4.9★ average rating with more than 50,000 bookings completed.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+      <div class="stat-card"><h3>50k+</h3><p>Bookings Completed</p></div>
+      <div class="stat-card"><h3>4.9★</h3><p>Average Rating</p></div>
+      <div class="stat-card"><h3>200+</h3><p>Verified Professionals</p></div>
+    </section>
+
+    <!-- Values -->
+    <section class="values">
+      <h2>What We Believe In</h2>
+
+      <div class="values-grid">
+        <div class="value-card">
+          <h3>Reliability</h3>
+          <p>We show up on time and finish the job as promised.</p>
+        </div>
+
+        <div class="value-card">
+          <h3>Safety First</h3>
+          <p>Background checks, safety training and proper equipment are non-negotiable.</p>
+        </div>
+
+        <div class="value-card">
+          <h3>Transparent Pricing</h3>
+          <p>No hidden charges. You always know what you’re paying for.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL -->
+  <div id="bookingModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Book Your Service</h2>
+
+      <form id="bookingForm">
+        <label>Full Name</label>
+        <input type="text" id="name" required />
+
+        <label>Phone Number</label>
+        <input type="tel" id="phone" required />
+
+        <label>Select Service</label>
+        <select id="service" required>
+          <option value="">-- Choose a Service --</option>
+          <option>Home Cleaning</option>
+          <option>Electrician</option>
+          <option>Plumber</option>
+          <option>Pest Control</option>
+        </select>
+
+        <div class="two-cols">
+          <div>
+            <label>Date</label>
+            <input type="date" id="date" required />
+          </div>
+
+          <div>
+            <label>Time</label>
+            <input type="time" id="time" required />
+          </div>
+        </div>
+
+        <label>Address</label>
+        <textarea id="address" required></textarea>
+
+        <div class="modal-actions">
+          <button type="button" onclick="confirmBooking()" class="btn btn-outline">Confirm (No Payment)</button>
+          <button type="button" onclick="payNow()" class="btn btn-primary">Pay & Book</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+
+      <div>
+        <h3>HouseCare</h3>
+        <p>Your trusted home service partner.</p>
+      </div>
+
+      <div>
+        <h4>Contact Us</h4>
+        <p>Email: support@housecare.com</p>
+        <p>Phone: +91 98765 43210</p>
+      </div>
+
+      <div>
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#">🌐</a>
+          <a href="#">📘</a>
+          <a href="#">📸</a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="footer-bottom">© 2025 HouseCare. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

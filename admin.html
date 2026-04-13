@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HouseCare Admin — Pro Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="admin.js" defer></script>
+</head>
+
+<body>
+
+<!-- ===================== TOP NAV ===================== -->
+<header class="admin-topnav">
+  <h2>HouseCare Admin</h2>
+  <div class="admin-actions">
+    <input type="text" id="searchBookings" placeholder="Search bookings...">
+    <button id="toggleTheme">🌙</button>
+  </div>
+</header>
+
+<!-- ===================== MAIN LAYOUT ===================== -->
+<div class="admin-layout">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-title">
+      📊 Dashboard
+    </div>
+
+    <a class="active" id="navBookings"><span>📑</span>Bookings</a>
+    <a href="analytics.html"><span>📈</span>Analytics</a>
+    <a href="track.html"><span>📦</span>Track Orders</a>
+    <a href="index.html"><span>🏠</span>Back to Site</a>
+
+    <button class="collapse-btn" id="collapseSidebar">⮜ Collapse</button>
+  </aside>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main class="admin-main">
+    
+    <h1>Bookings Dashboard</h1>
+    <p class="subtext">Smart overview & control panel for all customer bookings.</p>
+
+    <!-- FILTERS -->
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="Pending">Pending</button>
+      <button class="filter-btn" data-filter="In Progress">In Progress</button>
+      <button class="filter-btn" data-filter="Completed">Completed</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="totalBookings">0</div>
+        <div class="stat-label">Total Bookings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="pendingCount">0</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="completedCount">0</div>
+        <div class="stat-label">Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">₹0</div>
+        <div class="stat-label">Revenue (Sample)</div>
+      </div>
+    </div>
+
+    <!-- EXPORT / CLEAR -->
+    <div class="admin-controls">
+      <button id="exportCSV">Export CSV</button>
+      <button id="clearAll">Clear All</button>
+    </div>
+
+    <!-- BOOKINGS TABLE -->
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th data-sort="name">Name ⮟</th>
+          <th data-sort="phone">Phone</th>
+          <th data-sort="service">Service</th>
+          <th data-sort="date">Date</th>
+          <th data-sort="time">Time</th>
+          <th data-sort="status">Address</th>
+         <th>Payment</th>
+<th>Invoice</th>
+        </tr>
+      </thead>
+
+      <tbody id="bookingTable"></tbody>
+    </table>
+
+  </main>
+</div>
+
+<!-- MODAL INVOICE VIEWER -->
+<div id="invoiceModal" class="modal">
+  <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Invoice Details</h2>
+      <div id="invoiceBody"></div>
+  </div>
+</div>
+
+</body>
+</html>

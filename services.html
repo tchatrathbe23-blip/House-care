@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HouseCare | Our Services</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="script.js" defer></script>
+  <script src="calculator.js" defer></script>
+  <script src="chatbot.js" defer></script>
+</head>
+
+<body>
+
+  <!-- ======================================================
+       NAVBAR (UNIFIED WITH INDEX.HTML)
+  ====================================================== -->
+  <header class="navbar">
+    <div class="container nav-inner">
+
+      <div class="logo">House<span>Care</span></div>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html" class="active">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="track.html">Track Order</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="icon-pill" id="themeToggle">🌙</div>
+        <button class="book-btn" data-open-booking>Book Now</button>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- ======================================================
+       PAGE HEADER
+  ====================================================== -->
+  <main class="page container" style="padding-top:50px;">
+
+    <header class="page-header" style="text-align:center; margin-bottom:30px;">
+      <h1>All Home Services</h1>
+      <p class="section-subtitle">
+        Filter by category or search to quickly find what you need.
+      </p>
+    </header>
+
+    <!-- ======================================================
+         FILTER BAR
+    ====================================================== -->
+    <section class="filter-bar card" style="margin-bottom:35px;">
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="cleaning">Cleaning</button>
+        <button class="filter-btn" data-filter="electrical">Electrical</button>
+        <button class="filter-btn" data-filter="plumbing">Plumbing</button>
+        <button class="filter-btn" data-filter="pest">Pest Control</button>
+      </div>
+
+      <input
+        type="text"
+        id="serviceSearch"
+        placeholder="Search services (e.g. fan, kitchen, termite)..."
+        class="service-search"
+      />
+    </section>
+
+    <!-- ======================================================
+         SERVICE LIST GRID
+    ====================================================== -->
+    <section class="services">
+      <div class="service-grid" id="serviceList">
+
+        <!-- Cleaning -->
+        <div class="service-card" data-category="cleaning" data-name="Full Home Deep Cleaning">
+          <img src="deep.jpg" alt="Full home cleaning" />
+          <div class="service-body">
+            <h3>Full Home Deep Cleaning</h3>
+            <p>Complete top-to-bottom cleaning of your home including kitchen & bathrooms.</p>
+            <ul class="service-features">
+              <li>Up to 4 BHK homes</li>
+              <li>Eco-friendly chemicals</li>
+              <li>Approx. 4–6 hours</li>
+            </ul>
+            <div class="service-meta">
+              <span class="badge">⭐ 4.9</span>
+              <span class="badge">From ₹1799</span>
+            </div>
+            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+          </div>
+        </div>
+
+        <div class="service-card" data-category="cleaning" data-name="Kitchen Cleaning">
+          <img src="housekeep.jpg" alt="Kitchen cleaning" />
+          <div class="service-body">
+            <h3>Kitchen Cleaning</h3>
+            <p>Degreasing of chimney, tiles, shelves and appliances.</p>
+            <ul class="service-features">
+              <li>Oil & stain removal</li>
+              <li>Disinfection of surfaces</li>
+            </ul>
+            <div class="service-meta">
+              <span class="badge">From ₹599</span>
+            </div>
+            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+          </div>
+        </div>
+
+        <!-- Electrical -->
+        <div class="service-card" data-category="electrical" data-name="Ceiling Fan & Lights Installation">
+          <img src="fan.jpg" alt="Ceiling fan installation" />
+          <div class="service-body">
+            <h3>Ceiling Fan & Lights Installation</h3>
+            <p>Installation and replacement of fans, lights and decorative fixtures.</p>
+            <ul class="service-features">
+              <li>Safe wiring</li>
+              <li>Includes basic inspection</li>
+            </ul>
+            <div class="service-meta">
+              <span class="badge">From ₹249</span>
+            </div>
+            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+          </div>
+        </div>
+
+        <div class="service-card" data-category="electrical" data-name="Switch & Socket Repair">
+          <img src="electrician.jpg" alt="Switch repair" />
+          <div class="service-body">
+            <h3>Switch & Socket Repair</h3>
+            <p>Repair of non-working or sparking switches and sockets.</p>
+            <div class="service-meta">
+              <span class="badge">⚡ Emergency available</span>
+            </div>
+            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+          </div>
+        </div>
+
+        <!-- Plumbing -->
+        <div class="service-card" data-category="plumbing" data-name="Leakage Fix & Tap Replacement">
+          <img src="leak.jpg" alt="Leakage fix" />
+          <div class="service-body">
+            <h3>Leakage Fix & Tap Replacement</h3>
+            <p>Fix water leaks, change faucets and repair pipe issues.</p>
+            <div class="service-meta">
+              <span class="badge">From ₹299</span>
+            </div>
+            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+          </div>
+        </div>
+
+        <div class="service-card" data-category="plumbing" data-name="Bathroom Fittings Installation">
+          <img src="plumber.jpg" alt="Bathroom fittings" />
+          <div class="service-body">
+            <h3>Bathroom Fittings Installation</h3>
+            <p>Installation of shower, jet spray, geyser inlet/outlet etc.</p>
+            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+          </div>
+        </div>
+
+        <!-- Pest -->
+        <div class="service-card" data-category="pest" data-name="Cockroach & Ant Control">
+          <img src="cockroach.jpg" alt="Cockroach control" />
+          <div class="service-body">
+            <h3>Cockroach & Ant Control</h3>
+            <p>Odourless gel and spray treatment for full protection.</p>
+            <div class="service-meta">
+              <span class="badge">🛡 3-month warranty</span>
+            </div>
+            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+          </div>
+        </div>
+
+        <div class="service-card" data-category="pest" data-name="Termite Control">
+          <img src="pest.jpg" alt="Termite control" />
+          <div class="service-body">
+            <h3>Termite Control</h3>
+            <p>Drilling and chemical treatment to protect wooden furniture.</p>
+            <div class="service-meta">
+              <span class="badge">🛡 1-year warranty</span>
+            </div>
+            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <section class="price-section reveal">
+  <h2 class="section-title">Estimate Your Service Cost</h2>
+
+  <div class="price-card">
+    
+    <label for="calcService">Choose a Service</label>
+    <select id="calcService">
+      <option value="">-- Select Service --</option>
+      <option value="cleaning">Home Cleaning</option>
+      <option value="electrician">Electrician</option>
+      <option value="plumber">Plumber</option>
+      <option value="pest">Pest Control</option>
+    </select>
+
+    <label for="calcHours">Hours Required</label>
+    <input type="number" id="calcHours" min="1" value="1" />
+
+    <label for="calcUrgency">Urgency</label>
+    <select id="calcUrgency">
+      <option value="normal">Normal</option>
+      <option value="urgent">Urgent (+30%)</option>
+    </select>
+
+    <button id="calcBtn" class="btn btn-primary">Calculate Price</button>
+
+    <div id="calcResult" class="calc-result">Estimated Price: ₹0</div>
+  </div>
+</section>
+
+  </main>
+  
+
+
+  <!-- ======================================================
+       BOOKING MODAL
+  ====================================================== -->
+  <div id="bookingModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Book Your Service</h2>
+
+      <form id="bookingForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required />
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required />
+
+        <label for="service">Select Service</label>
+        <select id="service" required>
+          <option value="">-- Choose a Service --</option>
+          <option>Home Cleaning</option>
+          <option>Electrician</option>
+          <option>Plumber</option>
+          <option>Pest Control</option>
+        </select>
+
+        <div class="two-cols">
+          <div>
+            <label for="date">Preferred Date</label>
+            <input type="date" id="date" required />
+          </div>
+
+          <div>
+            <label for="time">Preferred Time</label>
+            <input type="time" id="time" required />
+          </div>
+        </div>
+
+        <label for="address">Address</label>
+        <textarea id="address" required></textarea>
+
+        <div class="modal-actions">
+          <button type="button" onclick="confirmBooking()" class="btn btn-outline">Confirm (No Payment)</button>
+          <button type="button" onclick="payNow()" class="btn btn-primary">Pay & Book</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ======================================================
+       FOOTER
+  ====================================================== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+
+      <div>
+        <h3>HouseCare</h3>
+        <p>Your trusted home service partner.</p>
+      </div>
+
+      <div>
+        <h4>Contact Us</h4>
+        <p>Email: support@housecare.com</p>
+        <p>Phone: +91 98765 43210</p>
+      </div>
+
+      <div>
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#">🌐</a>
+          <a href="#">📘</a>
+          <a href="#">📸</a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="footer-bottom">© 2025 HouseCare. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

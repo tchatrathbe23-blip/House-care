@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HouseCare | Professional Housekeeping Services</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Scripts loaded at bottom usually, but your version uses them here -->
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="script.js" defer></script>
+  <script src="chatbot.js" defer></script>
+</head>
+
+<body>
+
+  <!-- =============================
+       NAVBAR (Correct Version)
+  ============================= -->
+  <header class="navbar">
+    <div class="container nav-inner">
+
+      <div class="logo">House<span>Care</span></div>
+
+      <nav class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="track.html">Track Order</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="icon-pill" id="themeToggle">🌙</div>
+        <button class="book-btn" data-open-booking>Book Now</button>
+        <!-- Mobile hamburger handled by CSS -->
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =============================
+       HERO SECTION (Corrected)
+  ============================= -->
+  <section class="hero">
+    <div class="hero-content">
+
+      <div class="hero-badge badge">🏡 Trusted Home Services</div>
+
+      <h1 class="hero-title">Professional Housekeeping at Your Doorstep</h1>
+
+      <p class="hero-subtitle">
+        Book trusted cleaners, electricians, plumbers and pest-control experts in seconds.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-open-booking>Book a Service</button>
+        <a href="services.html" class="btn btn-outline">View All Services</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =============================
+       POPULAR SERVICES
+  ============================= -->
+  <section class="services section">
+    <h2 class="section-title">Popular Services</h2>
+    <p class="section-subtitle">Most booked by HouseCare customers this month.</p>
+
+    <div class="service-grid">
+
+      <div class="service-card">
+        <img src="housekeep.jpg" alt="Home Cleaning" />
+        <div class="service-body">
+          <h3>Home Cleaning</h3>
+          <p>Deep and surface cleaning for your entire home.</p>
+          <div class="service-meta">
+            <span class="badge">⭐ 4.8</span>
+            <span class="badge">From ₹699</span>
+          </div>
+          <button class="btn btn-primary small-btn" data-open-booking>Book Cleaning</button>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <img src="electrician.jpg" alt="Electrician" />
+        <div class="service-body">
+          <h3>Electrician</h3>
+          <p>Safe wiring, fixture installation and emergency repairs.</p>
+          <div class="service-meta">
+            <span class="badge">⚡ Express</span>
+            <span class="badge">From ₹249</span>
+          </div>
+          <button class="btn btn-primary small-btn" data-open-booking>Book Electrician</button>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <img src="plumber.jpg" alt="Plumber" />
+        <div class="service-body">
+          <h3>Plumber</h3>
+          <p>Leaks, blockages and new fittings done right.</p>
+          <div class="service-meta">
+            <span class="badge">⭐ 4.7</span>
+            <span class="badge">From ₹299</span>
+          </div>
+          <button class="btn btn-primary small-btn" data-open-booking>Book Plumber</button>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <img src="pest.jpg" alt="Pest Control" />
+        <div class="service-body">
+          <h3>Pest Control</h3>
+          <p>Odourless & safe pest control for your family.</p>
+          <div class="service-meta">
+            <span class="badge">🛡 6-month warranty</span>
+          </div>
+          <button class="btn btn-primary small-btn" data-open-booking>Book Pest Control</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+<section class="testimonials">
+  <h2 class="section-title">What Our Customers Say</h2>
+
+  <div class="testi-container">
+    
+    <!-- Prev -->
+    <button id="testiPrev" class="testi-arrow">
+      <span>❮</span>
+    </button>
+
+    <!-- Slides -->
+    <div class="testi-item active">
+      <p class="testi-text">
+        “HouseCare made my 2BHK sparkle like new! The team was punctual,
+        professional and super friendly.”
+      </p>
+      <h4 class="testi-name">Riya Sharma</h4>
+      <p class="testi-location">Bengaluru</p>
+    </div>
+
+    <div class="testi-item">
+      <p class="testi-text">
+        “The electrician fixed everything quickly and explained the issue.
+        Extremely professional and affordable.”
+      </p>
+      <h4 class="testi-name">Aditya Verma</h4>
+      <p class="testi-location">New Delhi</p>
+    </div>
+
+    <div class="testi-item">
+      <p class="testi-text">
+        “Booked termite control — clean treatment, zero smell, and visible 
+        results in one day. Highly recommended!”
+      </p>
+      <h4 class="testi-name">Neha & Arjun</h4>
+      <p class="testi-location">Pune</p>
+    </div>
+
+    <!-- Next -->
+    <button id="testiNext" class="testi-arrow">
+      <span>❯</span>
+    </button>
+
+  </div>
+
+  <!-- Dots -->
+  <div class="testi-dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</section>
+
+
+
+
+
+  <!-- =============================
+       ABOUT PREVIEW
+  ============================= -->
+  <section class="about section">
+    <div class="container about-inner">
+
+      <div class="about-copy">
+        <h3>Why People Trust Us</h3>
+        <p>
+          HouseCare connects you with verified professionals for every kind of home
+          maintenance. From routine cleaning to emergency repairs, we’ve got you covered.
+        </p>
+
+        <ul class="about-points">
+          <li>✔ Background-verified experts</li>
+          <li>✔ Upfront pricing with no hidden charges</li>
+          <li>✔ Support available 7 days a week</li>
+        </ul>
+
+        <a href="about.html" class="btn btn-outline" style="margin-top: 1rem;">Know More About Us</a>
+      </div>
+
+      <img src="housecare.jpg" alt="Home services" />
+
+    </div>
+  </section>
+
+  <!-- =============================
+       BOOKING MODAL
+  ============================= -->
+  <div id="bookingModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Book Your Service</h2>
+
+      <form id="bookingForm">
+
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required placeholder="Enter your name" />
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required placeholder="10-digit mobile number" />
+
+        <label for="service">Select Service</label>
+        <select id="service" required>
+          <option value="">-- Choose a Service --</option>
+          <option>Home Cleaning</option>
+          <option>Electrician</option>
+          <option>Plumber</option>
+          <option>Pest Control</option>
+        </select>
+
+        <div class="two-cols">
+          <div>
+            <label for="date">Preferred Date</label>
+            <input type="date" id="date" required />
+          </div>
+
+          <div>
+            <label for="time">Preferred Time</label>
+            <input type="time" id="time" required />
+          </div>
+        </div>
+
+        <label for="address">Address</label>
+        <textarea id="address" required placeholder="Flat / House No, Street, City"></textarea>
+
+        <div class="modal-actions">
+          <button type="button" onclick="confirmBooking()" class="btn btn-outline">Confirm (No Payment)</button>
+          <button type="button" onclick="payNow()" class="btn btn-primary">Pay & Book</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =============================
+       FOOTER
+  ============================= -->
+  <footer class="footer">
+    <div class="container footer-inner">
+
+      <div>
+        <h3>HouseCare</h3>
+        <p>Your trusted home service partner.</p>
+      </div>
+
+      <div>
+        <h4>Contact Us</h4>
+        <p>Email: support@housecare.com</p>
+        <p>Phone: +91 98765 43210</p>
+      </div>
+
+      <div>
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#">🌐</a>
+          <a href="#">📘</a>
+          <a href="#">📸</a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="footer-bottom">© 2025 HouseCare. All Rights Reserved.</p>
+  </footer>
+
+  <!-- PWA -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
+  </script>
+
+</body>
+</html>
