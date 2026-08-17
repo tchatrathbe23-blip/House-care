@@ -376,17 +376,34 @@ else if (type.includes('alert')) iconChar = '⚠️';
       console.warn('HouseCareNotifications requires HouseCareAuth to be loaded first.');
       return;
     }
-    
+
+    // Admin pages handle their own notification UI — skip injection there
     if (window.HouseCareAuth.getAdminToken()) {
-      // Optional admin logic
       return;
     }
-    
-    if (window.HouseCareAuth.getUserToken()) {
-      injectUI();
+
+    const isLoggedIn = !!window.HouseCareAuth.getUserToken();
+
+    // Always inject the bell so it's always visible in the navbar
+    injectUI();
+
+    if (isLoggedIn) {
+      // Functional mode: load badge count and connect socket
       refreshBadge();
       initSocket();
       requestNotificationPermission();
+    } else {
+      // Guest mode: clicking the bell redirects to login
+      if (bellBtn) {
+        bellBtn.removeEventListener('click', togglePanel);
+        bellBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          window.location.href = 'login.html';
+        });
+        bellBtn.title = 'Login to view notifications';
+        // Dim it slightly to hint guest state
+        bellBtn.style.opacity = '0.55';
+      }
     }
   }
 

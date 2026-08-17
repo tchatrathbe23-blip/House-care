@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,13 +7,19 @@
   <title>HouseCare | About Us</title>
 
   <link rel="stylesheet" href="style.css" />
+  <script>
+    (function() {
+      const isHttp = window.location.protocol === "http:" || window.location.protocol === "https:";
+      const isLocalAltPort = isHttp && ["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port && window.location.port !== "5000";
+      window.HOUSECARE_BACKEND_ORIGIN = window.HOUSECARE_BACKEND_ORIGIN || (isLocalAltPort ? "http://localhost:5000" : (isHttp ? window.location.origin : "http://localhost:5000"));
+      document.write(`<script src="${window.HOUSECARE_BACKEND_ORIGIN}/socket.io/socket.io.js"><\/script>`);
+    })();
+  </script>
   <script src="auth.js"></script>
+  <script src="notifications.js" defer></script>
   <script src="script.js" defer></script>
   <script src="chatbot.js" defer></script>
 </head>
-
-<body>
-
   <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
