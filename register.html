@@ -381,7 +381,7 @@
       }
 
       // If already logged in, redirect
-      if (HouseCareAuth.getUserToken() && HouseCareAuth.getUser()) {
+      if (window.HouseCareAuth && HouseCareAuth.getUserToken && HouseCareAuth.getUserToken() && HouseCareAuth.getUser()) {
         window.location.replace("index.html");
         return;
       }
@@ -419,6 +419,10 @@
         button.innerHTML = '<span class="loading-dot"></span>Creating account…';
 
         try {
+          if (!window.HouseCareAuth) {
+            throw new Error("Authentication module failed to load. Please refresh the page.");
+          }
+
           const data = await HouseCareAuth.fetchJson("/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

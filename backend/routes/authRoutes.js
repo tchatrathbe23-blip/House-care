@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { verifyToken, JWT_SECRET } = require("../middleware/authMiddleware");
@@ -22,6 +23,12 @@ function publicUser(user) {
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        message: "Database is not connected. Please verify that the MONGODB_URI environment variable is configured in Render.",
+      });
+    }
+
     const { name, email, password, phone, address } = req.body;
 
     if (!name || !email || !password) {
@@ -49,61 +56,66 @@ router.post("/register", async (req, res) => {
 
     res.status(201).json({ token, user: publicUser(user) });
   } catch (error) {
-    console.error("Register error:", error.message);
-    res.status(500).json({ message: "Server error during registration" });
+    console.error("Register error:", error);
+    res.status(500).json({ message: error.message || "Server error during registration" });
   }
 });
 
 // POST /api/auth/login
 router.post("/login", checkLoginAttempts(req => req.ip), async (req, res) => {
-
-    console.log("LOGIN ROUTE HIT");
-    console.log(req.body);
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        message: "Database is not connected. Please verify that the MONGODB_URI environment variable is configured in Render.",
+      });
+    }
 
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
+
     const user = await User.findOne({
-        email: email.toLowerCase()
+      email: email.toLowerCase(),
     });
 
-    console.log("USER FOUND:", !!user);
-
     if (!user) {
-        return res.status(401).json({
-            message: "User not found"
-        });
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
     }
 
     const isMatch = await user.comparePassword(password);
 
-    console.log("PASSWORD MATCH:", isMatch);
-
     if (!isMatch) {
-        return res.status(401).json({
-            message: "Wrong password"
-        });
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
     }
-
-    console.log("LOGIN SUCCESS");
 
     resetAttempts(req.ip);
 
-const token = jwt.sign(
-  {
-    id: user._id,
-    email: user.email,
-    role: "user",
-  },
-  JWT_SECRET,
-  {
-    expiresIn: "7d",
-  }
-);
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: "user",
+      },
+      JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
-return res.json({
-  token,
-  user: publicUser(user),
-});
+    return res.json({
+      token,
+      user: publicUser(user),
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ message: error.message || "Server error during login" });
+  }
 });
 
 
