@@ -43,7 +43,6 @@
 
       <div class="nav-actions">
         <div class="icon-pill" id="themeToggle" title="Toggle theme">🌙</div>
-        <a href="admin-login.html" class="auth-link admin-link">Admin</a>
       </div>
 
     </div>
@@ -294,6 +293,7 @@
           <li><a href="tracking.html" style="color: var(--text-muted); text-decoration: none;">Live Real-Time Tracking</a></li>
           <li><a href="about.html" style="color: var(--text-muted); text-decoration: none;">About Us</a></li>
           <li><a href="contact.html" style="color: var(--text-muted); text-decoration: none;">Contact & Help</a></li>
+          <li><a href="admin-login.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.8rem; opacity: 0.7;">Admin Access</a></li>
         </ul>
       </div>
 
@@ -308,13 +308,5 @@
 
     <p class="footer-bottom" style="text-align: center; font-size: 0.84rem; color: var(--text-muted); padding: 20px 0; border-top: 1px solid var(--border-subtle);">© 2026 HouseCare Services. All Rights Reserved.</p>
   </footer>
-
-  <!-- Mandatory Login Guard -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      HouseCareAuth.requireUser();
-    });
-  </script>
-
 </body>
 </html>

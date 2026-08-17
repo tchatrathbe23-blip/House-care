@@ -60,18 +60,23 @@ router.post("/send", async (req, res) => {
     });
 
     try {
-      await sendOTPEmail(normalizedEmail, otp);
+      const mailResult = await sendOTPEmail(normalizedEmail, otp);
+      
+      const message = mailResult && mailResult.simulated
+        ? `A verification code has been generated. (Note: Check Render server logs for OTP or configure SMTP in Render Environment).`
+        : `A 6-digit OTP verification code has been sent to ${normalizedEmail}. Please check your inbox.`;
+
+      return res.status(200).json({
+        message,
+        expiresIn: 600,
+        ...(mailResult && mailResult.simulated ? { devOtp: otp } : {})
+      });
     } catch (mailError) {
       console.error("Mailer error:", mailError.message);
       return res.status(500).json({
         message: mailError.message || "Failed to send OTP to your email. Please verify SMTP settings."
       });
     }
-
-    res.status(200).json({
-      message: `A 6-digit OTP verification code has been sent to ${normalizedEmail}. Please check your inbox.`,
-      expiresIn: 600
-    });
   } catch (error) {
     console.error("Send OTP Error:", error);
     res.status(500).json({ message: "Server error during OTP dispatch" });

@@ -9,7 +9,10 @@ const getTransporter = () => {
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
-      }
+      },
+      connectionTimeout: 6000,
+      greetingTimeout: 6000,
+      socketTimeout: 6000,
     });
   }
   return null;
@@ -20,11 +23,13 @@ const isMailConfigured = () => {
 };
 
 const sendOTPEmail = async (email, otp) => {
+  console.log(`[PASSWORD RESET OTP] Generated OTP for ${email}: ${otp}`);
+
   const transporter = getTransporter();
   
   if (!transporter) {
-    console.warn('SMTP is not configured in backend/.env (SMTP_USER / SMTP_PASS).');
-    throw new Error('SMTP email service is not configured. Please add your SMTP_USER and SMTP_PASS in backend/.env to send real emails.');
+    console.warn(`[SMTP Warning] SMTP credentials (SMTP_USER/SMTP_PASS) not configured in environment. Logged OTP: ${otp}`);
+    return { simulated: true, otp };
   }
 
   const mailOptions = {
@@ -60,6 +65,7 @@ const sendOTPEmail = async (email, otp) => {
 
   await transporter.sendMail(mailOptions);
   console.log(`[SMTP] Successfully dispatched OTP email to ${email}`);
+  return { simulated: false, otp };
 };
 
 module.exports = { sendOTPEmail, isMailConfigured };
