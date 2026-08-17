@@ -1,121 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HouseCare | Track Your Booking</title>
-
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-  <script src="chatbot.js" defer></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting to tracking</title>
   <script>
-   async function trackOrder() {
-  const input = document.getElementById("trackPhone").value.trim();
-  const box = document.getElementById("trackResult");
-
-  if (!input) {
-    box.innerHTML = "Enter phone or Booking ID";
-    return;
-  }
-
-  const res = await fetch(`http://localhost:5000/api/bookings/track/${input}`);
-  const data = await res.json();
-
-  if (!data.length) {
-    box.innerHTML = "No bookings found";
-    return;
-  }
-
-  box.innerHTML = data.map(b => `
-    <div class="track-card">
-      <h3>${b.service}</h3>
-      <p><strong>ID:</strong> ${b.bookingId}</p>
-      <p>${b.date} at ${b.time}</p>
-      <p>Status: ${b.status}</p>
-      <p>Payment: ${b.paymentStatus}</p>
-    </div>
-  `).join("");
-}
+    window.addEventListener("DOMContentLoaded", () => {
+      window.location.replace("tracking.html");
+    });
   </script>
-
 </head>
-
 <body>
-
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="container nav-inner">
-
-      <div class="logo">House<span>Care</span></div>
-
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="track.html" class="active">Track Order</a>
-        <a href="admin.html">Admin</a>
-      </nav>
-
-      <div class="nav-actions">
-        <div class="icon-pill" id="themeToggle">🌙</div>
-        <button class="book-btn" data-open-booking>Book Now</button>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- PAGE CONTENT -->
-  <main class="page container track-page">
-
-    <h1 class="center">Track Your Booking</h1>
-    <p class="section-subtitle center">
-      Enter your phone number to check the status of your service booking.
-    </p>
-
-    <div class="track-box card">
-
-      <div class="input-group">
-        <span class="input-icon">📱</span>
-        <input type="text" id="trackPhone" placeholder="Enter your phone number">
-      </div>
-
-      <button class="book-btn full-width" onclick="trackOrder()">Track Booking</button>
-
-      <div id="trackResult" class="track-result"></div>
-    </div>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-content">
-
-      <div>
-        <h3>HouseCare</h3>
-        <p>Your trusted home service partner.</p>
-      </div>
-
-      <div>
-        <h4>Contact Us</h4>
-        <p>Email: support@housecare.com</p>
-        <p>Phone: +91 98765 43210</p>
-      </div>
-
-      <div>
-        <h4>Follow Us</h4>
-        <div class="social-icons">
-          <a href="#">🌐</a>
-          <a href="#">📘</a>
-          <a href="#">📸</a>
-        </div>
-      </div>
-
-    </div>
-
-    <p class="footer-bottom">© 2025 HouseCare. All Rights Reserved.</p>
-  </footer>
-
+  <p>Redirecting to live tracking...</p>
 </body>
 </html>

@@ -6,14 +6,29 @@ function get(id) {
 }
 
 /* =========================================================
-   THEME TOGGLE (SAFE)
+   THEME TOGGLE — persists via localStorage
 ========================================================= */
-const themeToggle = get("themeToggle");
-if (themeToggle) {
-  themeToggle.onclick = () => {
-    document.body.classList.toggle("dark");
-  };
-}
+(function () {
+  const THEME_KEY = "housecare-theme";
+
+  // Apply saved theme immediately (prevents flash)
+  if (localStorage.getItem(THEME_KEY) === "dark") {
+    document.body.classList.add("dark");
+  }
+
+  const themeToggle = get("themeToggle");
+  if (themeToggle) {
+    // Set correct icon on load
+    themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+
+    themeToggle.onclick = () => {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+      themeToggle.textContent = isDark ? "☀️" : "🌙";
+    };
+  }
+})();
 
 /* =========================================================
    BOOKING MODAL INITIALIZATION
@@ -22,33 +37,79 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = get("bookingModal");
   if (!modal) return;
 
-  // 1. Open Modal for ALL buttons with [data-open-booking]
   document.querySelectorAll("[data-open-booking]").forEach((btn) => {
     btn.addEventListener("click", () => {
       modal.style.display = "flex";
-
-      // Auto-fill service from card if possible
-      const serviceName = btn.closest(".service-card")?.querySelector("h3")?.innerText;
+      const serviceCard = btn.closest(".service-card");
       const serviceInput = get("service");
-      if (serviceName && serviceInput) {
-        serviceInput.value = serviceName;
+      
+      if (serviceCard) {
+        // Clicked from service card - pre-fill the specific service
+        const serviceName = serviceCard.querySelector("h3")?.innerText;
+        if (serviceName && serviceInput) {
+          serviceInput.value = serviceName;
+        }
+      } else {
+        // Clicked from navbar or hero - clear service for all services
+        if (serviceInput) {
+          serviceInput.value = "";
+        }
       }
     });
   });
 
-  // 2. Close Modal (X button)
   const closeBtn = document.querySelector(".close");
   if (closeBtn) {
-    closeBtn.onclick = () => (modal.style.display = "none");
+    closeBtn.onclick = () => {
+      modal.style.display = "none";
+      if (window.resetFormArrays) window.resetFormArrays();
+    };
   }
 
-  // 3. Close Modal (Outside click)
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) {
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
       modal.style.display = "none";
+      if (window.resetFormArrays) window.resetFormArrays();
     }
   });
+  // --- Helper to get array data from form ---
+  function getRequirementsArray() {
+    const val = get("specialRequirements")?.value || "";
+    return val.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+  }
+
+  function getTasksArray() {
+    const titles = document.querySelectorAll(".task-title-input");
+    const priorities = document.querySelectorAll(".task-priority-input");
+    const arr = [];
+    titles.forEach((input, i) => {
+      const title = input.value.trim();
+      if (title) {
+        arr.push({
+          title,
+          completed: false,
+          priority: parseInt(priorities[i].value) || 1
+        });
+      }
+    });
+    return arr;
+  }
+
+  window.getSpecialRequirements = getRequirementsArray;
+  window.getTasks = getTasksArray;
+
+  window.resetFormArrays = () => {
+    const reqField = get("specialRequirements");
+    if (reqField) reqField.value = "";
+    document.querySelectorAll(".task-title-input").forEach(i => i.value = "");
+    document.querySelectorAll(".task-priority-input").forEach(i => i.value = "1");
+  };
 });
+
+function storeLatestBooking(booking) {
+  if (!booking) return;
+  localStorage.setItem("lastBooking", JSON.stringify(booking));
+}
 
 /* =========================================================
    CONFIRM BOOKING (NO PAYMENT)
@@ -60,8 +121,12 @@ async function confirmBooking() {
   const date = get("date")?.value;
   const time = get("time")?.value;
   const address = get("address")?.value;
+  const token = localStorage.getItem("token") || (window.HouseCareAuth && window.HouseCareAuth.getUserToken());
 
-  // 🔥 Validation
+  if (!token) {
+    alert("Please login first.");
+    return;
+  }
   if (!name || !phone || !service || !date || !time || !address) {
     alert("Please fill all fields");
     return;
@@ -73,10 +138,12 @@ async function confirmBooking() {
   }
 
   try {
-    await fetch("http://localhost:5000/api/bookings", {
+    const apiBase = (window.HouseCareAuth && window.HouseCareAuth.API_BASE) || "/api";
+    const response = await fetch(`${apiBase}/bookings`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         name,
@@ -86,15 +153,27 @@ async function confirmBooking() {
         date,
         time,
         address,
+        specialRequirements: window.getSpecialRequirements ? window.getSpecialRequirements() : [],
+        tasks: window.getTasks ? window.getTasks() : [],
         price: 500,
         status: "Pending",
         paymentStatus: "Not Paid",
       }),
     });
 
-    alert("✅ Booking saved successfully!");
-  } catch (err) {
-    alert("❌ Server error");
+    const booking = await response.json();
+    if (!response.ok) {
+      alert(booking.error || booking.message || "Server error");
+      return;
+    }
+    storeLatestBooking(booking);
+    if (window.resetFormArrays) window.resetFormArrays();
+    alert("Booking saved successfully!");
+    const modal = get("bookingModal");
+    if (modal) modal.style.display = "none";
+  } catch (error) {
+    console.error("Booking Error:", error);
+    alert("Server error: " + error.message);
   }
 }
 
@@ -108,6 +187,12 @@ async function payNow() {
   const date = get("date")?.value;
   const time = get("time")?.value;
   const address = get("address")?.value;
+  const token = localStorage.getItem("token") || (window.HouseCareAuth && window.HouseCareAuth.getUserToken());
+
+  if (!token) {
+    alert("Please login first.");
+    return;
+  }
 
   if (!name || !phone || !service || !date || !time || !address) {
     alert("Fill all fields first");
@@ -115,31 +200,39 @@ async function payNow() {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/api/payment/create-order", {
+    const apiBase = (window.HouseCareAuth && window.HouseCareAuth.API_BASE) || "/api";
+    const res = await fetch(`${apiBase}/payment/create-order`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        amount: 500
+      })
     });
 
     const order = await res.json();
 
-    // 🔥 Razorpay check
     if (typeof Razorpay === "undefined") {
       alert("Razorpay not loaded");
       return;
     }
 
     const options = {
-      key: "rzp_test_ScuM7vSCSEDBxI",
+      key: "rzp_test_TIZpZaZpnNlXP2",
       amount: order.amount,
       currency: "INR",
       name: "HouseCare",
       description: service,
-
-      handler: async function (response) {
+      handler: async function () {
         try {
-          await fetch("http://localhost:5000/api/bookings", {
+          console.log("Before booking fetch");
+          const bookingResponse = await fetch(`${apiBase}/bookings`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               name,
@@ -149,14 +242,29 @@ async function payNow() {
               date,
               time,
               address,
+              specialRequirements: window.getSpecialRequirements ? window.getSpecialRequirements() : [],
+              tasks: window.getTasks ? window.getTasks() : [],
               price: order.amount / 100,
               status: "Pending",
               paymentStatus: "Paid",
             }),
           });
+          console.log("After booking fetch");
+          console.log(bookingResponse.status);
+          const booking = await bookingResponse.json();
 
-          alert("✅ Payment successful & booking saved!");
-        } catch (err) {
+          if (!bookingResponse.ok) {
+            console.error("Backend Error:", booking);
+            alert(booking.error || booking.message || "Server error");
+            return;
+          }
+
+          storeLatestBooking(booking);
+          if (window.resetFormArrays) window.resetFormArrays();
+          alert("Payment successful and booking saved!");
+          const modal = get("bookingModal");
+          if (modal) modal.style.display = "none";
+        } catch (error) {
           alert("Booking failed after payment");
         }
       },
@@ -164,8 +272,7 @@ async function payNow() {
 
     const rzp = new Razorpay(options);
     rzp.open();
-
-  } catch (err) {
+  } catch (error) {
     alert("Payment failed");
   }
 }
@@ -179,14 +286,51 @@ if (lastBox) {
   const stored = localStorage.getItem("lastBooking");
 
   if (stored) {
-    const b = JSON.parse(stored);
+    const booking = JSON.parse(stored);
 
     lastBox.innerHTML = `
-      <p><strong>${b.service}</strong></p>
-      <p>${b.date} at ${b.time}</p>
-      <p>Status: ${b.status}</p>
+      <p><strong>${booking.service}</strong></p>
+      <p>${booking.date} at ${booking.time}</p>
+      <p>Status: ${booking.status}</p>
     `;
   }
 }
 
-// Logic handled in DOMContentLoaded initializer above
+/* =========================================================
+   TESTIMONIAL CAROUSEL
+========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const testiItems = document.querySelectorAll(".testi-item");
+  const dots = document.querySelectorAll(".testi-dots .dot");
+  const prevBtn = document.getElementById("testiPrev");
+  const nextBtn = document.getElementById("testiNext");
+  let currentIndex = 0;
+
+  if (testiItems.length > 0 && prevBtn && nextBtn) {
+    function showTestimonial(index) {
+      testiItems.forEach((item, i) => {
+        item.classList.toggle("active", i === index);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    }
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + testiItems.length) % testiItems.length;
+      showTestimonial(currentIndex);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % testiItems.length;
+      showTestimonial(currentIndex);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        currentIndex = i;
+        showTestimonial(currentIndex);
+      });
+    });
+  }
+});

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | HouseCare</title>
+  <meta name="description" content="Sign in to your HouseCare account to book, manage, and track home services." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f8cff'/%3E%3Cpath d='M16 32 32 18l16 14v18H36V38h-8v12H16z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="auth.js" defer></script>
+  <style>
+    :root {
+      --primary: #0f8cff;
+      --primary-dark: #075bb5;
+      --primary-glow: rgba(15, 140, 255, 0.25);
+      --accent: #ffb84d;
+      --surface: rgba(255, 255, 255, 0.92);
+      --border: #d7e2f1;
+      --text: #152033;
+      --muted: #66758c;
+      --shadow: 0 30px 60px rgba(17, 24, 39, 0.12);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(15, 140, 255, 0.15), transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(255, 184, 77, 0.12), transparent 50%),
+        #eef4fb;
+      overflow-x: hidden;
+    }
+
+    /* ---------- Layout ---------- */
+    .page-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+
+    /* ---------- LEFT: Hero Pane ---------- */
+    .hero-pane {
+      padding: 60px clamp(32px, 6vw, 80px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+    }
+
+    .hero-logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+
+    .hero-logo span { color: var(--primary); }
+
+    .hero-badge {
+      display: inline-flex;
+      width: fit-content;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(15, 140, 255, 0.1);
+      color: var(--primary-dark);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-pane h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      max-width: 12ch;
+    }
+
+    .hero-pane h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--primary), #38a7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-pane > p {
+      color: var(--muted);
+      max-width: 52ch;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .hero-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .hero-features span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-features span::before {
+      content: "✓";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(15, 140, 255, 0.12);
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ---------- RIGHT: Form Pane ---------- */
+    .form-pane {
+      display: grid;
+      place-items: center;
+      padding: 32px;
+    }
+
+    .card {
+      width: min(100%, 430px);
+      padding: 38px;
+      border-radius: 24px;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 1.7rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card > p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Alert */
+    .alert {
+      display: none;
+      margin: 16px 0 0;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .alert.error {
+      display: block;
+      background: rgba(232, 93, 117, 0.1);
+      color: #a02c48;
+      border: 1px solid rgba(232, 93, 117, 0.2);
+    }
+
+    .alert.success {
+      display: block;
+      background: rgba(25, 169, 116, 0.1);
+      color: #0b7c54;
+      border: 1px solid rgba(25, 169, 116, 0.2);
+    }
+
+    /* Form */
+    form {
+      margin-top: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      font: inherit;
+      font-size: 0.92rem;
+      background: #fff;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-glow);
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper input {
+      padding-right: 48px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--muted);
+      padding: 4px;
+      line-height: 1;
+    }
+    .toggle-password:hover {
+      color: var(--primary);
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .meta-row a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .meta-row a:hover { text-decoration: underline; }
+
+    /* Submit Button */
+    .submit-btn {
+      min-height: 52px;
+      border: none;
+      border-radius: 14px;
+      font: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), #38a7ff);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px rgba(15, 140, 255, 0.3);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Footer */
+    .card-footer {
+      margin-top: 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .card-footer a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .card-footer a:hover { text-decoration: underline; }
+
+    /* Loading Spinner */
+    .loading-dot {
+      display: inline-flex;
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: text-bottom;
+      margin-right: 8px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .page-shell { grid-template-columns: 1fr; }
+      .hero-pane { padding: 40px 24px 16px; }
+      .hero-pane h1 { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <!-- LEFT PANE -->
+    <section class="hero-pane">
+      <div class="hero-logo">House<span>Care</span></div>
+      <span class="hero-badge">🔐 Secure Customer Login</span>
+      <h1>Welcome back to <em>HouseCare</em>.</h1>
+      <p>Sign in to access all features — book verified professionals, track your service in real-time, and manage your home maintenance effortlessly.</p>
+      <div class="hero-features">
+        <span>Background-verified service experts</span>
+        <span>Real-time order tracking</span>
+        <span>Transparent pricing, no hidden charges</span>
+        <span>24/7 emergency service support</span>
+      </div>
+    </section>
+
+    <!-- RIGHT PANE -->
+    <section class="form-pane">
+      <div class="card">
+        <h2>Sign In</h2>
+        <p>Enter your credentials to continue.</p>
+        <div id="alertBox" class="alert"></div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password" />
+              <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password">👁️</button>
+            </div>
+          </div>
+
+          <div class="meta-row">
+            <a href="forgot-password.html">Forgot password?</a>
+            <span>Admin? <a href="admin-login.html">Admin login</a></span>
+          </div>
+
+          <label class="remember-me" style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--muted); cursor: pointer;">
+            <input type="checkbox" id="rememberMe" style="accent-color: var(--primary);" />
+            Remember me for 30 days
+          </label>
+
+          <button type="submit" class="submit-btn" id="loginBtn">Sign In</button>
+          <button type="button" id="demoUserBtn" style="width: 100%; min-height: 42px; border-radius: 14px; border: 1.5px dashed var(--primary); background: rgba(15, 140, 255, 0.06); color: var(--primary-dark); font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: background 0.2s;">
+            ⚡ Fill Demo User Credentials
+          </button>
+        </form>
+
+        <div class="card-footer">
+          Don't have an account? <a href="register.html">Create one</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("loginForm");
+      const button = document.getElementById("loginBtn");
+      const alertBox = document.getElementById("alertBox");
+      const demoBtn = document.getElementById("demoUserBtn");
+
+      if (demoBtn) {
+        demoBtn.addEventListener("click", () => {
+          document.getElementById("email").value = "test@housecare.com";
+          document.getElementById("password").value = "Password123";
+        });
+      }
+
+      function showAlert(type, message) {
+        alertBox.className = `alert ${type}`;
+        alertBox.textContent = message;
+      }
+
+      // If already logged in, redirect to home
+      if (HouseCareAuth.getUserToken() && HouseCareAuth.getUser()) {
+        window.location.replace(HouseCareAuth.getReturnTo("index.html"));
+        return;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const rememberMe = document.getElementById("rememberMe").checked;
+
+        if (!email || !password) {
+          showAlert("error", "Please enter both email and password.");
+          return;
+        }
+
+        button.disabled = true;
+        button.innerHTML = '<span class="loading-dot"></span>Signing in…';
+
+        try {
+          const data = await HouseCareAuth.fetchJson("/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password, rememberMe }),
+          });
+
+          HouseCareAuth.clearAdminSession();
+          HouseCareAuth.setUserSession(data.token, data.user);
+          showAlert("success", "Login successful! Redirecting…");
+
+          setTimeout(() => {
+            window.location.replace(HouseCareAuth.getReturnTo("index.html"));
+          }, 600);
+        } catch (error) {
+          showAlert("error", error.message || "Unable to log in. Please try again.");
+          button.disabled = false;
+          button.textContent = "Sign In";
+        }
+      });
+
+      const toggleBtn = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        toggleBtn.textContent = isPassword ? '🙈' : '👁️';
+      });
+    });
+  </script>
+</body>
+</html>
+

@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HouseCare | Our Services</title>
 
   <link rel="stylesheet" href="style.css" />
+  <script>
+    window.HOUSECARE_BACKEND_ORIGIN = window.location.port === '5000'
+      ? window.location.origin
+      : `${window.location.protocol}//${window.location.hostname}:5000`;
+    document.write(`<script src="${window.HOUSECARE_BACKEND_ORIGIN}/socket.io/socket.io.js"><\/script>`);
+  </script>
+  <script src="auth.js"></script>
+  <script src="notifications.js" defer></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="script.js" defer></script>
   <script src="calculator.js" defer></script>
@@ -27,13 +36,13 @@
         <a href="services.html" class="active">Services</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
-        <a href="track.html">Track Order</a>
-        <a href="admin.html">Admin</a>
+        <a href="tracking.html">Real-Time Track</a>
       </nav>
 
       <div class="nav-actions">
         <div class="icon-pill" id="themeToggle">🌙</div>
-        <button class="book-btn" data-open-booking>Book Now</button>
+
+        <a href="admin-login.html" class="auth-link admin-link">Admin</a>
       </div>
 
     </div>
@@ -64,12 +73,8 @@
         <button class="filter-btn" data-filter="pest">Pest Control</button>
       </div>
 
-      <input
-        type="text"
-        id="serviceSearch"
-        placeholder="Search services (e.g. fan, kitchen, termite)..."
-        class="service-search"
-      />
+      <input type="text" id="serviceSearch" placeholder="Search services (e.g. fan, kitchen, termite)..."
+        class="service-search" />
     </section>
 
     <!-- ======================================================
@@ -192,36 +197,36 @@
       </div>
     </section>
     <section class="price-section reveal">
-  <h2 class="section-title">Estimate Your Service Cost</h2>
+      <h2 class="section-title">Estimate Your Service Cost</h2>
 
-  <div class="price-card">
-    
-    <label for="calcService">Choose a Service</label>
-    <select id="calcService">
-      <option value="">-- Select Service --</option>
-      <option value="cleaning">Home Cleaning</option>
-      <option value="electrician">Electrician</option>
-      <option value="plumber">Plumber</option>
-      <option value="pest">Pest Control</option>
-    </select>
+      <div class="price-card">
 
-    <label for="calcHours">Hours Required</label>
-    <input type="number" id="calcHours" min="1" value="1" />
+        <label for="calcService">Choose a Service</label>
+        <select id="calcService">
+          <option value="">-- Select Service --</option>
+          <option value="cleaning">Home Cleaning</option>
+          <option value="electrician">Electrician</option>
+          <option value="plumber">Plumber</option>
+          <option value="pest">Pest Control</option>
+        </select>
 
-    <label for="calcUrgency">Urgency</label>
-    <select id="calcUrgency">
-      <option value="normal">Normal</option>
-      <option value="urgent">Urgent (+30%)</option>
-    </select>
+        <label for="calcHours">Hours Required</label>
+        <input type="number" id="calcHours" min="1" value="1" />
 
-    <button id="calcBtn" class="btn btn-primary">Calculate Price</button>
+        <label for="calcUrgency">Urgency</label>
+        <select id="calcUrgency">
+          <option value="normal">Normal</option>
+          <option value="urgent">Urgent (+30%)</option>
+        </select>
 
-    <div id="calcResult" class="calc-result">Estimated Price: ₹0</div>
-  </div>
-</section>
+        <button id="calcBtn" class="btn btn-primary">Calculate Price</button>
+
+        <div id="calcResult" class="calc-result">Estimated Price: ₹0</div>
+      </div>
+    </section>
 
   </main>
-  
+
 
 
   <!-- ======================================================
@@ -262,6 +267,42 @@
 
         <label for="address">Address</label>
         <textarea id="address" required></textarea>
+
+        <div style="margin-top: 15px;">
+          <label for="specialRequirements">Special Requirements (One per line)</label>
+          <textarea id="specialRequirements" placeholder="e.g. Bring own ladder&#10;Eco-friendly chemicals only" style="height: 60px;"></textarea>
+        </div>
+
+        <div class="tasks-section" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+          <label>Service Tasks & Priorities</label>
+          
+          <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+            <input type="text" class="task-title-input" placeholder="Task 1 (e.g. Clean Kitchen)" style="flex: 2;" />
+            <select class="task-priority-input" style="flex: 1;">
+              <option value="1">Low</option>
+              <option value="2">Med</option>
+              <option value="3">High</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+            <input type="text" class="task-title-input" placeholder="Task 2 (e.g. Wash Windows)" style="flex: 2;" />
+            <select class="task-priority-input" style="flex: 1;">
+              <option value="1">Low</option>
+              <option value="2">Med</option>
+              <option value="3">High</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <input type="text" class="task-title-input" placeholder="Task 3 (Optional)" style="flex: 2;" />
+            <select class="task-priority-input" style="flex: 1;">
+              <option value="1">Low</option>
+              <option value="2">Med</option>
+              <option value="3">High</option>
+            </select>
+          </div>
+        </div>
 
         <div class="modal-actions">
           <button type="button" onclick="confirmBooking()" class="btn btn-outline">Confirm (No Payment)</button>
@@ -304,5 +345,12 @@
     <p class="footer-bottom">© 2025 HouseCare. All Rights Reserved.</p>
   </footer>
 
+  <!-- Mandatory Login Guard -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      HouseCareAuth.requireUser();
+    });
+  </script>
 </body>
+
 </html>

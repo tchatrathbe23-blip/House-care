@@ -5,6 +5,14 @@
   <title>Invoice</title>
   <link rel="stylesheet" href="style.css">
   <script>
+    // Check authentication on page load
+    window.addEventListener('load', () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'index.html';
+      }
+    });
+
     window.onload = () => {
       const data = JSON.parse(localStorage.getItem("invoice-data") || "{}");
       document.getElementById("invName").textContent = data.name;

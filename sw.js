@@ -1,5 +1,13 @@
 self.addEventListener("install", () => {
-  console.log("Service Worker Installed");
+  self.skipWaiting();
 });
 
-self.addEventListener("fetch", () => {});
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    self.registration.unregister().then(() => {
+      return self.clients.matchAll({ type: "window" });
+    }).then((clients) => {
+      clients.forEach((client) => client.navigate(client.url));
+    })
+  );
+});

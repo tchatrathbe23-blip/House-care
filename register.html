@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account | HouseCare</title>
+  <meta name="description" content="Create your HouseCare account to start booking home services instantly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="auth.js" defer></script>
+  <style>
+    :root {
+      --primary: #0f8cff;
+      --primary-dark: #075bb5;
+      --primary-glow: rgba(15, 140, 255, 0.25);
+      --accent: #ffb84d;
+      --surface: rgba(255, 255, 255, 0.92);
+      --border: #d7e2f1;
+      --text: #152033;
+      --muted: #66758c;
+      --shadow: 0 30px 60px rgba(17, 24, 39, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(15, 140, 255, 0.15), transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(255, 184, 77, 0.12), transparent 50%),
+        #eef4fb;
+      overflow-x: hidden;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+
+    /* LEFT PANE */
+    .hero-pane {
+      padding: 60px clamp(32px, 6vw, 80px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+    }
+
+    .hero-logo { font-size: 1.6rem; font-weight: 800; }
+    .hero-logo span { color: var(--primary); }
+
+    .hero-badge {
+      display: inline-flex;
+      width: fit-content;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(15, 140, 255, 0.1);
+      color: var(--primary-dark);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .hero-pane h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      max-width: 14ch;
+    }
+
+    .hero-pane h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--primary), #38a7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-pane > p {
+      color: var(--muted);
+      max-width: 52ch;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .hero-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hero-features span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .hero-features span::before {
+      content: "✓";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(15, 140, 255, 0.12);
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* RIGHT PANE */
+    .form-pane {
+      display: grid;
+      place-items: center;
+      padding: 32px;
+    }
+
+    .card {
+      width: min(100%, 440px);
+      padding: 36px;
+      border-radius: 24px;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 { font-size: 1.7rem; letter-spacing: -0.02em; }
+    .card > p { margin: 8px 0 0; color: var(--muted); font-size: 0.9rem; }
+
+    .alert {
+      display: none;
+      margin: 14px 0 0;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .alert.error {
+      display: block;
+      background: rgba(232, 93, 117, 0.1);
+      color: #a02c48;
+      border: 1px solid rgba(232, 93, 117, 0.2);
+    }
+
+    .alert.success {
+      display: block;
+      background: rgba(25, 169, 116, 0.1);
+      color: #0b7c54;
+      border: 1px solid rgba(25, 169, 116, 0.2);
+    }
+
+    form {
+      margin-top: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      font: inherit;
+      font-size: 0.92rem;
+      background: #fff;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-glow);
+    }
+
+    .strength-bar {
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .strength-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.3s, background 0.3s;
+      width: 0;
+    }
+    .strength-text {
+      font-size: 0.78rem;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .strength-weak { background: #e85d75; }
+    .strength-medium { background: #ffb84d; }
+    .strength-strong { background: #19a974; }
+    .password-requirements {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .password-requirements span {
+      display: block;
+      margin-top: 2px;
+    }
+    .password-requirements span.met {
+      color: #19a974;
+    }
+    .password-requirements span.met::before {
+      content: '✓ ';
+    }
+    .password-requirements span:not(.met)::before {
+      content: '○ ';
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .submit-btn {
+      min-height: 50px;
+      border: none;
+      border-radius: 14px;
+      font: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), #38a7ff);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 6px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px rgba(15, 140, 255, 0.3);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .card-footer {
+      margin-top: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .card-footer a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .card-footer a:hover { text-decoration: underline; }
+
+    .loading-dot {
+      display: inline-flex;
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: text-bottom;
+      margin-right: 8px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 960px) {
+      .page-shell { grid-template-columns: 1fr; }
+      .hero-pane { padding: 40px 24px 16px; }
+      .hero-pane h1 { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <!-- LEFT PANE -->
+    <section class="hero-pane">
+      <div class="hero-logo">House<span>Care</span></div>
+      <span class="hero-badge">🏡 Join HouseCare</span>
+      <h1>Create your <em>HouseCare</em> account.</h1>
+      <p>Sign up to instantly book verified home service professionals, track them in real-time, and enjoy a hassle-free home maintenance experience.</p>
+      <div class="hero-features">
+        <span>Instant booking confirmation</span>
+        <span>Real-time service tracking</span>
+        <span>Secure payment options</span>
+        <span>Rated and reviewed professionals</span>
+      </div>
+    </section>
+
+    <!-- RIGHT PANE -->
+    <section class="form-pane">
+      <div class="card">
+        <h2>Create Account</h2>
+        <p>Fill in your details to get started.</p>
+        <div id="alertBox" class="alert"></div>
+
+        <form id="registrationForm">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your full name" autocomplete="name" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 9876543210" autocomplete="tel" />
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" id="address" name="address" placeholder="City, Area" autocomplete="street-address" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="Create a strong password" minlength="8" autocomplete="new-password" />
+            <div class="strength-bar"><div class="strength-bar-fill" id="strengthBarFill"></div></div>
+            <div class="strength-text" id="strengthText"></div>
+            <div class="password-requirements" id="passwordReqs">
+              <span id="reqLength">At least 8 characters</span>
+              <span id="reqNumber">At least 1 number</span>
+              <span id="reqUpper">At least 1 uppercase letter</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password" autocomplete="new-password" />
+          </div>
+
+          <button type="submit" class="submit-btn" id="registerBtn">Create Account</button>
+        </form>
+
+        <div class="card-footer">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("registrationForm");
+      const button = document.getElementById("registerBtn");
+      const alertBox = document.getElementById("alertBox");
+
+      function showAlert(type, msg) {
+        alertBox.className = `alert ${type}`;
+        alertBox.textContent = msg;
+      }
+
+      // If already logged in, redirect
+      if (HouseCareAuth.getUserToken() && HouseCareAuth.getUser()) {
+        window.location.replace("index.html");
+        return;
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const phone = document.getElementById("phone").value.trim();
+        const address = document.getElementById("address").value.trim();
+
+        if (!name || !email || !password) {
+          showAlert("error", "Name, email and password are required.");
+          return;
+        }
+
+        const hasLength = password.length >= 8;
+        const hasNumber = /\d/.test(password);
+        const hasUpper = /[A-Z]/.test(password);
+
+        if (!hasLength || !hasNumber || !hasUpper) {
+          showAlert("error", "Password must meet all requirements.");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          showAlert("error", "Passwords do not match.");
+          return;
+        }
+
+        button.disabled = true;
+        button.innerHTML = '<span class="loading-dot"></span>Creating account…';
+
+        try {
+          const data = await HouseCareAuth.fetchJson("/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password, phone, address }),
+          });
+
+          HouseCareAuth.setUserSession(data.token, data.user);
+          showAlert("success", "✓ Account created! Redirecting…");
+
+          setTimeout(() => {
+            window.location.replace("index.html");
+          }, 700);
+        } catch (error) {
+          showAlert("error", error.message || "Registration failed. Please try again.");
+          button.disabled = false;
+          button.textContent = "Create Account";
+        }
+      });
+
+      const passwordField = document.getElementById('password');
+      passwordField.addEventListener('input', () => {
+        const val = passwordField.value;
+        const hasLength = val.length >= 8;
+        const hasNumber = /\d/.test(val);
+        const hasUpper = /[A-Z]/.test(val);
+        
+        document.getElementById('reqLength').className = hasLength ? 'met' : '';
+        document.getElementById('reqNumber').className = hasNumber ? 'met' : '';
+        document.getElementById('reqUpper').className = hasUpper ? 'met' : '';
+        
+        const score = [hasLength, hasNumber, hasUpper].filter(Boolean).length;
+        const fill = document.getElementById('strengthBarFill');
+        const text = document.getElementById('strengthText');
+        
+        if (score === 0) { fill.style.width = '0'; text.textContent = ''; }
+        else if (score === 1) { fill.style.width = '33%'; fill.className = 'strength-bar-fill strength-weak'; text.textContent = 'Weak'; text.style.color = '#e85d75'; }
+        else if (score === 2) { fill.style.width = '66%'; fill.className = 'strength-bar-fill strength-medium'; text.textContent = 'Medium'; text.style.color = '#ffb84d'; }
+        else { fill.style.width = '100%'; fill.className = 'strength-bar-fill strength-strong'; text.textContent = 'Strong'; text.style.color = '#19a974'; }
+      });
+    });
+  </script>
+</body>
+</html>

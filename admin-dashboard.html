@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HouseCare Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin-shell.css" />
+  <script>
+    (function() {
+      const isHttp = window.location.protocol === "http:" || window.location.protocol === "https:";
+      const isLocalAltPort = isHttp && ["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port && window.location.port !== "5000";
+      window.HOUSECARE_BACKEND_ORIGIN = window.HOUSECARE_BACKEND_ORIGIN || (isLocalAltPort ? "http://localhost:5000" : (isHttp ? window.location.origin : "http://localhost:5000"));
+      document.write(`<script src="${window.HOUSECARE_BACKEND_ORIGIN}/socket.io/socket.io.js"><\/script>`);
+    })();
+  </script>
+  <script src="auth.js" defer></script>
+  <script src="admin-dashboard.js" defer></script>
+</head>
+<body class="admin-page">
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-mark">HC</div>
+        <div class="admin-brand-text">
+          <strong>HouseCare Admin</strong>
+          <span>Operations control center</span>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <a class="admin-nav-link active" href="admin-dashboard.html">
+          <span class="admin-nav-icon">O</span>
+          <span class="admin-nav-label">Overview</span>
+        </a>
+        <a class="admin-nav-link" href="analytics.html">
+          <span class="admin-nav-icon">A</span>
+          <span class="admin-nav-label">Analytics</span>
+        </a>
+        <a class="admin-nav-link" href="tracking.html">
+          <span class="admin-nav-icon">T</span>
+          <span class="admin-nav-label">Customer tracking</span>
+        </a>
+        <a class="admin-nav-link" href="index.html">
+          <span class="admin-nav-icon">S</span>
+          <span class="admin-nav-label">Back to site</span>
+        </a>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <div class="admin-sidebar-meta">
+          <strong id="adminIdentity">Administrator</strong>
+          <span id="adminMeta">admin access</span>
+        </div>
+        <button class="admin-sidebar-button" id="sidebarToggle" type="button">
+          <span class="admin-nav-icon">&lt;</span>
+          <span class="admin-nav-label">Collapse sidebar</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="admin-layout-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-copy">
+          <h1>Admin dashboard</h1>
+          <p>Monitor bookings, active service movement, and live operational updates in one place.</p>
+        </div>
+
+        <div class="admin-topbar-actions">
+          <button class="admin-action-button admin-mobile-toggle" id="mobileSidebarToggle" type="button">Menu</button>
+          <span class="admin-chip">Live monitoring on</span>
+          <button class="admin-action-button" onclick="bulkStatusUpdate()" title="Run a bulk update operation">Bulk update</button>
+          <a class="admin-action-button" href="analytics.html">View analytics</a>
+          <button class="admin-action-button primary" id="logoutButton" type="button">Logout</button>
+        </div>
+      </header>
+
+      <section class="admin-kpis">
+        <article class="admin-card admin-kpi-card">
+          <div>
+            <p>Total bookings</p>
+            <div class="admin-kpi-value" id="statTotalBookings">0</div>
+          </div>
+          <div class="admin-kpi-icon">B</div>
+        </article>
+
+        <article class="admin-card admin-kpi-card">
+          <div>
+            <p>Live tracking sessions</p>
+            <div class="admin-kpi-value" id="statLiveTracking">0</div>
+          </div>
+          <div class="admin-kpi-icon">L</div>
+        </article>
+
+        <article class="admin-card admin-kpi-card">
+          <div>
+            <p>Revenue captured</p>
+            <div class="admin-kpi-value" id="statRevenue">INR 0</div>
+          </div>
+          <div class="admin-kpi-icon">R</div>
+        </article>
+
+        <article class="admin-card admin-kpi-card">
+          <div>
+            <p>Completion rate</p>
+            <div class="admin-kpi-value" id="statCompletionRate">0%</div>
+          </div>
+          <div class="admin-kpi-icon">C</div>
+        </article>
+      </section>
+
+      <section class="admin-grid">
+        <article class="admin-card admin-panel">
+          <div class="admin-panel-header">
+            <div>
+              <h2 class="admin-panel-title">Recent bookings</h2>
+              <p class="admin-panel-subtitle">The latest customer jobs that need oversight or follow-up.</p>
+            </div>
+            <a class="admin-action-button" href="analytics.html">Open analytics</a>
+          </div>
+          <div class="admin-list" id="bookingsList">
+            <div class="admin-loading">Loading bookings...</div>
+          </div>
+        </article>
+
+        <div style="display: grid; gap: 20px;">
+          <article class="admin-card admin-panel">
+            <div class="admin-panel-header">
+              <div>
+                <h2 class="admin-panel-title">Live tracking</h2>
+                <p class="admin-panel-subtitle">Current service movement and most recent provider pings.</p>
+              </div>
+            </div>
+            <div class="admin-list" id="trackingList">
+              <div class="admin-loading">Loading live tracking...</div>
+            </div>
+          </article>
+
+          <article class="admin-card admin-panel">
+            <div class="admin-panel-header">
+              <div>
+                <h2 class="admin-panel-title">Notifications</h2>
+                <p class="admin-panel-subtitle">Socket-driven operational events appear here in real time.</p>
+              <button class="admin-action-button" id="adminSoundToggle" type="button">Sound on</button>
+              </div>
+            </div>
+            <div class="admin-list" id="notificationsList">
+              <div class="admin-list-empty">Live alerts, tracking updates, and booking changes will appear here.</div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+
+

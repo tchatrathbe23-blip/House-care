@@ -1,31 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
+const { verifyAdminToken } = require("../middleware/authMiddleware");
 
-/* =========================================
-   1. BOOKINGS PER SERVICE
-========================================= */
-router.get("/services", async (req, res) => {
+
+router.get("/services", verifyAdminToken, async (req, res) => {
   const data = await Booking.aggregate([
     { $group: { _id: "$service", count: { $sum: 1 } } }
   ]);
   res.json(data);
 });
 
-/* =========================================
-   2. STATUS DISTRIBUTION
-========================================= */
-router.get("/status", async (req, res) => {
+
+router.get("/status", verifyAdminToken, async (req, res) => {
   const data = await Booking.aggregate([
     { $group: { _id: "$status", count: { $sum: 1 } } }
   ]);
   res.json(data);
 });
 
-/* =========================================
-   3. TOTAL REVENUE
-========================================= */
-router.get("/revenue", async (req, res) => {
+
+router.get("/revenue", verifyAdminToken, async (req, res) => {
   const data = await Booking.aggregate([
     { $match: { paymentStatus: "Paid" } },
     {
@@ -36,13 +31,11 @@ router.get("/revenue", async (req, res) => {
     }
   ]);
 
-  res.json(data[0] || { total: 0 });
+  res.json({ total: data[0]?.total || 0 });
 });
 
-/* =========================================
-   4. CATEGORY PERFORMANCE
-========================================= */
-router.get("/category", async (req, res) => {
+
+router.get("/category", verifyAdminToken, async (req, res) => {
   const data = await Booking.aggregate([
     {
       $group: {
@@ -55,17 +48,21 @@ router.get("/category", async (req, res) => {
   res.json(data);
 });
 
-/* =========================================
-   5. DAILY BOOKINGS TREND (BONUS ⭐)
-========================================= */
-router.get("/daily", async (req, res) => {
+
+router.get("/daily", verifyAdminToken, async (req, res) => {
   const data = await Booking.aggregate([
     {
       $group: {
-        _id: { $substr: ["$createdAt", 0, 10] },
+        _id: {
+          $dateToString: {
+            format: "%Y-%m-%d",
+            date: "$createdAt",
+          },
+        },
         count: { $sum: 1 }
       }
-    }
+    },
+    { $sort: { _id: 1 } }
   ]);
   res.json(data);
 });

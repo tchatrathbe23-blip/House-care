@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Provider Dashboard</title>
+</head>
+<body>
+
+<h2>Provider Dashboard</h2>
+
+<button id="startTracking">Start Live Tracking</button>
+
+<script>
+document.getElementById("startTracking").onclick = () => {
+
+    navigator.geolocation.watchPosition(async (position) => {
+
+        await fetch("http://localhost:5000/api/tracking/update-location/TRACKING_ID_HERE", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                status: "in_transit"
+            })
+
+        });
+
+    });
+
+};
+</script>
+
+</body>
+</html>

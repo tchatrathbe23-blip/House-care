@@ -1,27 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Analytics | HouseCare Admin</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="analytics.js"></script>
-<script src="chatbot.js"></script>   <!-- optional -->
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HouseCare Admin Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin-shell.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="analytics.js" defer></script>
 </head>
-<body>
+<body class="admin-page">
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-mark">HC</div>
+        <div class="admin-brand-text">
+          <strong>HouseCare Admin</strong>
+          <span>Analytics and performance view</span>
+        </div>
+      </div>
 
-  <header class="navbar">
-    <div class="logo">Analytics</div>
-    <nav class="nav-links">
-      <a href="admin.html">Dashboard</a>
-    </nav>
-  </header>
+      <nav class="admin-nav">
+        <a class="admin-nav-link" href="admin-dashboard.html">
+          <span class="admin-nav-icon">O</span>
+          <span class="admin-nav-label">Overview</span>
+        </a>
+        <a class="admin-nav-link active" href="analytics.html">
+          <span class="admin-nav-icon">A</span>
+          <span class="admin-nav-label">Analytics</span>
+        </a>
+        <a class="admin-nav-link" href="tracking.html">
+          <span class="admin-nav-icon">T</span>
+          <span class="admin-nav-label">Customer tracking</span>
+        </a>
+        <a class="admin-nav-link" href="index.html">
+          <span class="admin-nav-icon">S</span>
+          <span class="admin-nav-label">Back to site</span>
+        </a>
+      </nav>
 
-  <section class="page">
-    <h1>Booking Analytics</h1>
-    <canvas id="serviceChart" width="400" height="200"></canvas>
-    <canvas id="statusChart" width="400" height="200"></canvas>
-  </section>
+      <div class="admin-sidebar-footer">
+        <div class="admin-sidebar-meta">
+          <strong id="analyticsAdminIdentity">Administrator</strong>
+          <span id="analyticsAdminMeta">admin access</span>
+        </div>
+        <button class="admin-sidebar-button" id="sidebarToggle" type="button">
+          <span class="admin-nav-icon">&lt;</span>
+          <span class="admin-nav-label">Collapse sidebar</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="admin-layout-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-copy">
+          <h1>Analytics</h1>
+          <p>Track service demand, completion mix, revenue, and booking momentum across HouseCare.</p>
+        </div>
+
+        <div class="admin-topbar-actions">
+          <button class="admin-action-button admin-mobile-toggle" id="mobileSidebarToggle" type="button">Menu</button>
+          <a class="admin-action-button" href="admin-dashboard.html">Dashboard</a>
+          <button class="admin-action-button primary" id="analyticsLogoutButton" type="button">Logout</button>
+        </div>
+      </header>
+
+      <section class="admin-kpis">
+        <article class="admin-card admin-kpi-card">
+          <div>
+            <p>Total bookings</p>
+            <div class="admin-kpi-value" id="analyticsTotalBookings">0</div>
+          </div>
+          <div class="admin-kpi-icon">B</div>
+        </article>
+
+        <article class="admin-card admin-kpi-card">
+          <div>
+            <p>Revenue</p>
+            <div class="admin-kpi-value" id="analyticsRevenue">INR 0</div>
+          </div>
+          <div class="admin-kpi-icon">R</div>
+        </article>
+
+        <article class="admin-card admin-kpi-card">
+          <div>
+            <p>Active tracking</p>
+            <div class="admin-kpi-value" id="analyticsActiveTracking">0</div>
+          </div>
+          <div class="admin-kpi-icon">L</div>
+        </article>
+
+        <article class="admin-card admin-kpi-card">
+          <div>
+            <p>Completion rate</p>
+            <div class="admin-kpi-value" id="analyticsCompletionRate">0%</div>
+          </div>
+          <div class="admin-kpi-icon">C</div>
+        </article>
+      </section>
+
+      <article class="admin-card admin-panel" style="margin-bottom: 20px;">
+        <div class="admin-panel-header">
+          <div>
+            <h2 class="admin-panel-title">Performance overview</h2>
+            <p class="admin-panel-subtitle" id="analyticsStatus">Loading analytics from live backend data...</p>
+          </div>
+        </div>
+      </article>
+
+      <section class="admin-chart-grid">
+        <article class="admin-card admin-chart-card">
+          <div class="admin-panel-header">
+            <div>
+              <h2 class="admin-panel-title">Bookings by service</h2>
+              <p class="admin-panel-subtitle">Where customer demand is currently concentrated.</p>
+            </div>
+          </div>
+          <canvas id="serviceChart"></canvas>
+        </article>
+
+        <article class="admin-card admin-chart-card">
+          <div class="admin-panel-header">
+            <div>
+              <h2 class="admin-panel-title">Status mix</h2>
+              <p class="admin-panel-subtitle">Current operational spread across booking states.</p>
+            </div>
+          </div>
+          <canvas id="statusChart"></canvas>
+        </article>
+
+        <article class="admin-card admin-chart-card wide">
+          <div class="admin-panel-header">
+            <div>
+              <h2 class="admin-panel-title">Daily bookings trend</h2>
+              <p class="admin-panel-subtitle">How booking volume has moved over time.</p>
+            </div>
+          </div>
+          <canvas id="dailyChart"></canvas>
+        </article>
+
+        <article class="admin-card admin-chart-card wide">
+          <div class="admin-panel-header">
+            <div>
+              <h2 class="admin-panel-title">Revenue by category</h2>
+              <p class="admin-panel-subtitle">Paid booking contribution grouped by service category.</p>
+            </div>
+          </div>
+          <canvas id="categoryChart"></canvas>
+          <p class="admin-footnote">If a chart appears empty, it means the backend returned no matching records instead of the page failing.</p>
+        </article>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
