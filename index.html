@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HouseCare | Professional Housekeeping Services</title>
+  <meta name="description" content="Book trusted cleaners, electricians, plumbers and pest-control experts in seconds with live tracking and instant notifications." />
 
   <link rel="stylesheet" href="style.css" />
 
@@ -25,7 +26,7 @@
 <body>
 
   <!-- =============================
-       NAVBAR (Correct Version)
+       NAVBAR
   ============================= -->
   <header class="navbar">
     <div class="container nav-inner">
@@ -41,8 +42,7 @@
       </nav>
 
       <div class="nav-actions">
-        <div class="icon-pill" id="themeToggle">🌙</div>
-        
+        <div class="icon-pill" id="themeToggle" title="Toggle theme">🌙</div>
         <a href="admin-login.html" class="auth-link admin-link">Admin</a>
       </div>
 
@@ -50,22 +50,29 @@
   </header>
 
   <!-- =============================
-       HERO SECTION (Corrected)
+       HERO SECTION
   ============================= -->
   <section class="hero">
     <div class="hero-content">
 
-      <div class="hero-badge badge">🏡 Trusted Home Services</div>
+      <div class="hero-badge badge">🏡 Trusted by 10,000+ Happy Homes</div>
 
       <h1 class="hero-title">Professional Housekeeping at Your Doorstep</h1>
 
       <p class="hero-subtitle">
-        Book trusted cleaners, electricians, plumbers and pest-control experts in seconds.
+        Book certified cleaners, electricians, plumbers, and pest-control specialists in seconds with live tracking and instant updates.
       </p>
 
       <div class="hero-actions">
-        
-        <a href="services.html" class="btn btn-outline">View All Services</a>
+        <button class="btn btn-primary" data-open-booking>⚡ Book a Service</button>
+        <a href="services.html" class="btn btn-outline">Explore All Services</a>
+        <a href="tracking.html" class="btn btn-outline">📍 Live Tracking</a>
+      </div>
+
+      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 24px; font-size: 0.88rem; color: var(--text-muted);">
+        <span>⭐ <strong>4.9 / 5</strong> Verified Rating</span>
+        <span>🛡️ <strong>100%</strong> Background Verified</span>
+        <span>⚡ <strong>30-Min</strong> Express Arrival</span>
       </div>
 
     </div>
@@ -84,7 +91,7 @@
         <img src="housekeep.jpg" alt="Home Cleaning" />
         <div class="service-body">
           <h3>Home Cleaning</h3>
-          <p>Deep and surface cleaning for your entire home.</p>
+          <p>Deep and surface cleaning for your entire home with eco-friendly solutions.</p>
           <div class="service-meta">
             <span class="badge">⭐ 4.8</span>
             <span class="badge">From ₹699</span>
@@ -97,7 +104,7 @@
         <img src="electrician.jpg" alt="Electrician" />
         <div class="service-body">
           <h3>Electrician</h3>
-          <p>Safe wiring, fixture installation and emergency repairs.</p>
+          <p>Safe wiring, fixture installation, appliances, and emergency repairs.</p>
           <div class="service-meta">
             <span class="badge">⚡ Express</span>
             <span class="badge">From ₹249</span>
@@ -110,7 +117,7 @@
         <img src="plumber.jpg" alt="Plumber" />
         <div class="service-body">
           <h3>Plumber</h3>
-          <p>Leaks, blockages and new fittings done right.</p>
+          <p>Leaks, drain blockages, pipe fittings, and bath fixtures done right.</p>
           <div class="service-meta">
             <span class="badge">⭐ 4.7</span>
             <span class="badge">From ₹299</span>
@@ -123,9 +130,10 @@
         <img src="pest.jpg" alt="Pest Control" />
         <div class="service-body">
           <h3>Pest Control</h3>
-          <p>Odourless & safe pest control for your family.</p>
+          <p>Odourless & safe pest management for termites, cockroaches, and pests.</p>
           <div class="service-meta">
             <span class="badge">🛡 6-month warranty</span>
+            <span class="badge">From ₹799</span>
           </div>
           <button class="btn btn-primary small-btn" data-open-booking>Book Pest Control</button>
         </div>
@@ -134,62 +142,60 @@
     </div>
   </section>
 
-<section class="testimonials">
-  <h2 class="section-title">What Our Customers Say</h2>
+  <!-- =============================
+       TESTIMONIALS
+  ============================= -->
+  <section class="testimonials section">
+    <h2 class="section-title">What Our Customers Say</h2>
+    <p class="section-subtitle">Real feedback from verified homeowners across the country.</p>
 
-  <div class="testi-container">
-    
-    <!-- Prev -->
-    <button id="testiPrev" class="testi-arrow">
-      <span>❮</span>
-    </button>
+    <div class="testi-container">
+      <!-- Prev -->
+      <button id="testiPrev" class="testi-arrow" aria-label="Previous Testimonial">
+        <span>❮</span>
+      </button>
 
-    <!-- Slides -->
-    <div class="testi-item active">
-      <p class="testi-text">
-        “HouseCare made my 2BHK sparkle like new! The team was punctual,
-        professional and super friendly.”
-      </p>
-      <h4 class="testi-name">Riya Sharma</h4>
-      <p class="testi-location">Bengaluru</p>
+      <!-- Slides -->
+      <div class="testi-item active">
+        <p class="testi-text">
+          “HouseCare made my 3BHK sparkle like new! The team was punctual,
+          professional, extremely thorough, and super friendly.”
+        </p>
+        <h4 class="testi-name">Riya Sharma</h4>
+        <p class="testi-location">Bengaluru • Verified Homeowner</p>
+      </div>
+
+      <div class="testi-item">
+        <p class="testi-text">
+          “The electrician fixed my MCB tripping issue in 20 minutes and explained everything clearly.
+          Extremely professional and affordable.”
+        </p>
+        <h4 class="testi-name">Aditya Verma</h4>
+        <p class="testi-location">New Delhi • Verified Customer</p>
+      </div>
+
+      <div class="testi-item">
+        <p class="testi-text">
+          “Booked pest control — clean treatment, zero harsh smell, and visible 
+          results within 24 hours. The live tracking feature is brilliant!”
+        </p>
+        <h4 class="testi-name">Neha & Arjun</h4>
+        <p class="testi-location">Pune • Verified Homeowners</p>
+      </div>
+
+      <!-- Next -->
+      <button id="testiNext" class="testi-arrow" aria-label="Next Testimonial">
+        <span>❯</span>
+      </button>
     </div>
 
-    <div class="testi-item">
-      <p class="testi-text">
-        “The electrician fixed everything quickly and explained the issue.
-        Extremely professional and affordable.”
-      </p>
-      <h4 class="testi-name">Aditya Verma</h4>
-      <p class="testi-location">New Delhi</p>
+    <!-- Dots -->
+    <div class="testi-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
     </div>
-
-    <div class="testi-item">
-      <p class="testi-text">
-        “Booked termite control — clean treatment, zero smell, and visible 
-        results in one day. Highly recommended!”
-      </p>
-      <h4 class="testi-name">Neha & Arjun</h4>
-      <p class="testi-location">Pune</p>
-    </div>
-
-    <!-- Next -->
-    <button id="testiNext" class="testi-arrow">
-      <span>❯</span>
-    </button>
-
-  </div>
-
-  <!-- Dots -->
-  <div class="testi-dots">
-    <span class="dot active"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-  </div>
-</section>
-
-
-
-
+  </section>
 
   <!-- =============================
        ABOUT PREVIEW
@@ -198,22 +204,23 @@
     <div class="container about-inner">
 
       <div class="about-copy">
-        <h3>Why People Trust Us</h3>
+        <h3>Why Homeowners Rely On Us</h3>
         <p>
-          HouseCare connects you with verified professionals for every kind of home
-          maintenance. From routine cleaning to emergency repairs, we’ve got you covered.
+          HouseCare connects you with verified, vetted professionals for every kind of home
+          maintenance. From deep sanitization to emergency fixes, experience true peace of mind.
         </p>
 
         <ul class="about-points">
-          <li>✔ Background-verified experts</li>
+          <li>✔ 100% Background-verified professionals</li>
           <li>✔ Upfront pricing with no hidden charges</li>
-          <li>✔ Support available 7 days a week</li>
+          <li>✔ Live GPS tracking and real-time status alerts</li>
+          <li>✔ 24/7 dedicated customer support & satisfaction guarantee</li>
         </ul>
 
-        <a href="about.html" class="btn btn-outline" style="margin-top: 1rem;">Know More About Us</a>
+        <a href="about.html" class="btn btn-outline" style="margin-top: 1.2rem;">Know More About Us</a>
       </div>
 
-      <img src="housecare.jpg" alt="Home services" />
+      <img src="housecare.jpg" alt="HouseCare home services team" style="border-radius: 18px; box-shadow: var(--shadow-soft);" />
 
     </div>
   </section>
@@ -225,6 +232,7 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Book Your Service</h2>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">Fill in the details below to schedule your expert service.</p>
 
       <form id="bookingForm">
 
@@ -256,11 +264,11 @@
         </div>
 
         <label for="address">Address</label>
-        <textarea id="address" required placeholder="Flat / House No, Street, City"></textarea>
+        <textarea id="address" required placeholder="Flat / House No, Street, Landmark, City"></textarea>
 
         <div class="modal-actions">
-          <button type="button" onclick="confirmBooking()" class="btn btn-outline">Confirm (No Payment)</button>
-          <button type="button" onclick="payNow()" class="btn btn-primary">Pay & Book</button>
+          <button type="button" onclick="confirmBooking()" class="btn btn-outline">Confirm (Pay Later)</button>
+          <button type="button" onclick="payNow()" class="btn btn-primary">Pay & Book Now</button>
         </div>
 
       </form>
@@ -272,33 +280,34 @@
        FOOTER
   ============================= -->
   <footer class="footer">
-    <div class="container footer-inner">
+    <div class="container footer-inner" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; padding: 48px 0 32px;">
 
       <div>
-        <h3>HouseCare</h3>
-        <p>Your trusted home service partner.</p>
+        <h3 style="font-size: 1.4rem; margin-bottom: 10px;">House<span>Care</span></h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Your premium home service partner for trusted housekeeping, electrical, plumbing, and pest control.</p>
       </div>
 
       <div>
-        <h4>Contact Us</h4>
-        <p>Email: support@housecare.com</p>
-        <p>Phone: +91 98765 43210</p>
+        <h4 style="margin-bottom: 12px;">Quick Links</h4>
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem;">
+          <li><a href="services.html" style="color: var(--text-muted); text-decoration: none;">All Services</a></li>
+          <li><a href="tracking.html" style="color: var(--text-muted); text-decoration: none;">Live Real-Time Tracking</a></li>
+          <li><a href="about.html" style="color: var(--text-muted); text-decoration: none;">About Us</a></li>
+          <li><a href="contact.html" style="color: var(--text-muted); text-decoration: none;">Contact & Help</a></li>
+        </ul>
       </div>
 
       <div>
-        <h4>Follow Us</h4>
-        <div class="social-icons">
-          <a href="#">🌐</a>
-          <a href="#">📘</a>
-          <a href="#">📸</a>
-        </div>
+        <h4 style="margin-bottom: 12px;">Contact Info</h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 6px;">Email: support@housecare.com</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 6px;">Phone: +91 98765 43210</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Hours: 8:00 AM – 10:00 PM</p>
       </div>
 
     </div>
 
-    <p class="footer-bottom">© 2025 HouseCare. All Rights Reserved.</p>
+    <p class="footer-bottom" style="text-align: center; font-size: 0.84rem; color: var(--text-muted); padding: 20px 0; border-top: 1px solid var(--border-subtle);">© 2026 HouseCare Services. All Rights Reserved.</p>
   </footer>
-
 
   <!-- Mandatory Login Guard -->
   <script>
@@ -309,4 +318,3 @@
 
 </body>
 </html>
-

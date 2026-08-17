@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const OTP = require("../models/OTP");
 const User = require("../models/User");
-const { sendOTPEmail } = require("../utils/mailer");
+const { sendOTPEmail, isMailConfigured } = require("../utils/mailer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../middleware/authMiddleware");
@@ -27,7 +27,7 @@ router.post("/send", async (req, res) => {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: "Email is required" });
 
-    const normalizedEmail = email.toLowerCase();
+    const normalizedEmail = email.toLowerCase().trim();
     const now = Date.now();
     const reqData = otpRequests.get(normalizedEmail) || { count: 0, resetAt: now + 10 * 60 * 1000 };
 
@@ -36,7 +36,7 @@ router.post("/send", async (req, res) => {
       reqData.resetAt = now + 10 * 60 * 1000;
     }
 
-    if (reqData.count >= 3) {
+    if (reqData.count >= 5) {
       return res.status(429).json({ message: "Too many OTP requests. Please try again later." });
     }
 
@@ -59,12 +59,22 @@ router.post("/send", async (req, res) => {
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     });
 
-    await sendOTPEmail(normalizedEmail, otp);
+    try {
+      await sendOTPEmail(normalizedEmail, otp);
+    } catch (mailError) {
+      console.error("Mailer error:", mailError.message);
+      return res.status(500).json({
+        message: mailError.message || "Failed to send OTP to your email. Please verify SMTP settings."
+      });
+    }
 
-    res.status(200).json({ message: "OTP sent to your email", expiresIn: 600 });
+    res.status(200).json({
+      message: `A 6-digit OTP verification code has been sent to ${normalizedEmail}. Please check your inbox.`,
+      expiresIn: 600
+    });
   } catch (error) {
     console.error("Send OTP Error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error during OTP dispatch" });
   }
 });
 

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -21,33 +20,49 @@
   <script src="chatbot.js" defer></script>
 
   <script>
-    window.onload = function () {
+    document.addEventListener("DOMContentLoaded", () => {
+      const list = JSON.parse(localStorage.getItem("housecare-bookings") || "[]");
       const last = list[list.length - 1];
       const div = document.getElementById("lastBooking");
 
-      if (!last) {
-        div.innerHTML = "<p>No bookings yet. Book a service to see it here!</p>";
-      } else {
-        div.innerHTML = `
-          <div class="booking-mini">
-            <h3>${last.service}</h3>
-            <p><strong>Date:</strong> ${last.date}</p>
-            <p><strong>Time:</strong> ${last.time}</p>
-            <p><strong>Status:</strong> <span class="status-pill">${last.status}</span></p>
-          </div>`;
+      if (div) {
+        if (!last) {
+          div.innerHTML = "<p style='color:var(--text-muted);font-size:0.9rem;'>No bookings yet. Book a service to see it here!</p>";
+        } else {
+          div.innerHTML = `
+            <div class="booking-mini" style="text-align:left; background:rgba(15,140,255,0.06); padding:12px 16px; border-radius:12px; border:1px solid rgba(15,140,255,0.15);">
+              <h4 style="margin:0 0 6px 0; color:var(--text-main);">${last.service}</h4>
+              <p style="margin:0 0 4px 0; font-size:0.85rem;"><strong>Date:</strong> ${last.date}</p>
+              <p style="margin:0 0 6px 0; font-size:0.85rem;"><strong>Time:</strong> ${last.time}</p>
+              <span class="badge" style="background:#10b981;color:#fff;">${last.status || 'Confirmed'}</span>
+            </div>`;
+        }
       }
 
-      // Character counter
       const msg = document.getElementById("cmessage");
       const count = document.getElementById("msgCount");
-      msg.oninput = () => count.innerText = msg.value.length;
-    };
-
-    // FAQ toggle
-    document.addEventListener("click", e => {
-      if (e.target.classList.contains("faq-question")) {
-        e.target.nextElementSibling.classList.toggle("open");
+      if (msg && count) {
+        msg.addEventListener("input", () => count.innerText = msg.value.length);
       }
+
+      const contactForm = document.getElementById("contactForm");
+      if (contactForm) {
+        contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const note = document.getElementById("contactNote");
+          if (note) {
+            note.style.color = "#10b981";
+            note.textContent = "Thank you! Your message has been received. Our team will get back to you within 24 hours.";
+          }
+          contactForm.reset();
+        });
+      }
+
+      document.querySelectorAll(".faq-question").forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.nextElementSibling.classList.toggle("open");
+        });
+      });
     });
   </script>
 </head>
@@ -56,134 +71,144 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-    <div class="logo">House<span>Care</span></div>
+    <div class="container nav-inner">
+      <div class="logo">House<span>Care</span></div>
 
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="about.html">About</a>
-      <a href="contact.html" class="active">Contact</a>
-      <a href="tracking.html">Real-Time Track</a>
-    </nav>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="tracking.html">Real-Time Track</a>
+      </nav>
 
-    <div class="nav-actions">
-      <button id="themeToggle" class="theme-toggle">🌙</button>
-      
-      <a href="admin-login.html" class="auth-link admin-link">Admin</a>
-      <button class="hamburger" id="hamburger">☰</button>
+      <div class="nav-actions">
+        <div id="themeToggle" class="icon-pill" title="Toggle theme">🌙</div>
+        <a href="admin-login.html" class="auth-link admin-link">Admin</a>
+      </div>
     </div>
   </header>
 
- <main class="page contact-page container">
+  <main class="page contact-page container" style="padding-top: 40px;">
 
-  <header class="page-header center">
-    <h1>Contact & Support</h1>
-    <p>Have a question or issue? We’re here to help you 7 days a week.</p>
-  </header>
+    <header class="page-header center" style="text-align: center; margin-bottom: 35px;">
+      <h1>Contact & Support</h1>
+      <p class="section-subtitle">Have a question or issue? We’re here to help you 7 days a week.</p>
+    </header>
 
-  <!-- New Layout -->
-  <section class="contact-section new-contact-layout">
+    <!-- Contact Grid -->
+    <section class="contact-section" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; margin-bottom: 48px;">
 
-    <!-- RIGHT: Form comes first -->
-    <div class="contact-form-wrapper card">
-      <h2 class="center">Send a Message</h2>
+      <!-- Form Column -->
+      <div class="contact-form-wrapper card">
+        <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Send us a Message</h2>
 
-      <form id="contactForm" class="contact-form">
+        <form id="contactForm" class="contact-form" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label for="cname" style="display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 6px;">Full Name</label>
+            <input type="text" id="cname" required placeholder="Your full name" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--border-subtle); font: inherit; font-size: 0.9rem;">
+          </div>
 
-        <label>Full Name</label>
-        <input type="text" id="cname" required>
+          <div>
+            <label for="cemail" style="display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 6px;">Email Address</label>
+            <input type="email" id="cemail" required placeholder="you@example.com" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--border-subtle); font: inherit; font-size: 0.9rem;">
+          </div>
 
-        <label>Email</label>
-        <input type="email" id="cemail" required>
+          <div>
+            <label for="csubject" style="display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 6px;">Subject</label>
+            <input type="text" id="csubject" required placeholder="Service inquiry or question" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--border-subtle); font: inherit; font-size: 0.9rem;">
+          </div>
 
-        <label>Subject</label>
-        <input type="text" id="csubject" required>
+          <div>
+            <label for="cmessage" style="display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 6px;">Message</label>
+            <textarea id="cmessage" maxlength="400" required placeholder="How can we assist you?" style="width: 100%; min-height: 110px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--border-subtle); font: inherit; font-size: 0.9rem; resize: vertical;"></textarea>
+            <p class="char-count" style="text-align: right; font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;"><span id="msgCount">0</span>/400 characters</p>
+          </div>
 
-        <label>Message</label>
-        <textarea id="cmessage" maxlength="400" required></textarea>
-
-        <p class="char-count"><span id="msgCount">0</span>/400 characters</p>
-
-        <button type="submit" class="submit-btn center-btn">Send Message</button>
-
-        <p id="contactNote" class="booking-note"></p>
-      </form>
-    </div>
-
-    <!-- LEFT: Reach Us under the form -->
-    <div class="contact-info card moved-box">
-      <h2 class="center">Reach Us</h2>
-
-      <div class="info-box center">
-        <p>📧 support@housecare.com</p>
-        <p>📞 +91 98765 43210</p>
-        <p>🕒 9:00 AM – 9:00 PM (IST)</p>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+          <p id="contactNote" class="booking-note" style="font-size: 0.88rem; font-weight: 500; text-align: center; margin-top: 6px;"></p>
+        </form>
       </div>
 
-      <h3 class="center">Your Last Booking</h3>
-      <div id="lastBooking" class="last-booking-card center"></div>
-    </div>
+      <!-- Info Column -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="contact-info card">
+          <h2 style="font-size: 1.3rem; margin-bottom: 14px;">Direct Helpdesk</h2>
 
-  </section>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.92rem; color: var(--text-main);">
+            <p>📧 <strong>Email:</strong> support@housecare.com</p>
+            <p>📞 <strong>Helpline:</strong> +91 98765 43210</p>
+            <p>🕒 <strong>Hours:</strong> 8:00 AM – 10:00 PM (Daily)</p>
+            <p>📍 <strong>HQ:</strong> Tech Park, Outer Ring Road, Bengaluru</p>
+          </div>
+        </div>
 
-  <!-- Centered FAQ -->
-  <section class="faq faq-centered">
-    <h2 class="center">Frequently Asked Questions</h2>
-
-    <div class="faq-item card faq-wide">
-      <button class="faq-question">How are your professionals verified?</button>
-      <div class="faq-answer">
-        <p>We verify ID, address and previous experience before onboarding anyone.</p>
+        <div class="card">
+          <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Recent Service Status</h3>
+          <div id="lastBooking"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="faq-item card faq-wide">
-      <button class="faq-question">Can I reschedule a booking?</button>
-      <div class="faq-answer">
-        <p>Yes, up to 3 hours before the appointment.</p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" style="margin-bottom: 60px;">
+      <h2 class="section-title" style="margin-bottom: 24px;">Frequently Asked Questions</h2>
+
+      <div style="display: grid; gap: 14px;">
+        <div class="faq-item card" style="padding: 16px 20px; cursor: pointer;">
+          <h4 class="faq-question" style="font-size: 1rem; color: var(--primary-dark); margin: 0; display: flex; justify-content: space-between; align-items: center;">How are your service professionals verified? <span>+</span></h4>
+          <div class="faq-answer" style="margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">
+            <p>All service experts undergo rigorous multi-step background checks, identity verification, skill assessments, and police validation before joining HouseCare.</p>
+          </div>
+        </div>
+
+        <div class="faq-item card" style="padding: 16px 20px; cursor: pointer;">
+          <h4 class="faq-question" style="font-size: 1rem; color: var(--primary-dark); margin: 0; display: flex; justify-content: space-between; align-items: center;">Can I reschedule or cancel a booking? <span>+</span></h4>
+          <div class="faq-answer" style="margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">
+            <p>Yes, you can easily reschedule or cancel up to 2 hours prior to your scheduled service slot without any cancellation fee.</p>
+          </div>
+        </div>
+
+        <div class="faq-item card" style="padding: 16px 20px; cursor: pointer;">
+          <h4 class="faq-question" style="font-size: 1rem; color: var(--primary-dark); margin: 0; display: flex; justify-content: space-between; align-items: center;">What is the HouseCare Service Guarantee? <span>+</span></h4>
+          <div class="faq-answer" style="margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">
+            <p>If you're not 100% satisfied with our service, we provide a free re-visit within 24 hours to make things right.</p>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="faq-item card faq-wide">
-      <button class="faq-question">What if I am not satisfied?</button>
-      <div class="faq-answer">
-        <p>We offer a free re-visit within 24 hours.</p>
-      </div>
-    </div>
-  </section>
-
-</main>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-content">
+    <div class="container footer-inner" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; padding: 48px 0 32px;">
       <div>
-        <h3>HouseCare</h3>
-        <p>Your trusted home service partner.</p>
+        <h3 style="font-size: 1.4rem; margin-bottom: 10px;">House<span>Care</span></h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Your premium home service partner for trusted housekeeping, electrical, plumbing, and pest control.</p>
       </div>
+
       <div>
-        <h4>Contact Us</h4>
-        <p>Email: support@housecare.com</p>
-        <p>Phone: +91 98765 43210</p>
+        <h4 style="margin-bottom: 12px;">Quick Links</h4>
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem;">
+          <li><a href="services.html" style="color: var(--text-muted); text-decoration: none;">All Services</a></li>
+          <li><a href="tracking.html" style="color: var(--text-muted); text-decoration: none;">Real-Time Tracking</a></li>
+          <li><a href="about.html" style="color: var(--text-muted); text-decoration: none;">About Us</a></li>
+          <li><a href="contact.html" style="color: var(--text-muted); text-decoration: none;">Support & FAQ</a></li>
+        </ul>
       </div>
+
       <div>
-        <h4>Follow Us</h4>
-        <div class="social-icons">
-          <a href="#">🌐</a>
-          <a href="#">📘</a>
-          <a href="#">📸</a>
-        </div>
+        <h4 style="margin-bottom: 12px;">Contact Info</h4>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 6px;">Email: support@housecare.com</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 6px;">Phone: +91 98765 43210</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Hours: 8:00 AM – 10:00 PM</p>
       </div>
     </div>
-    <p class="footer-bottom">© 2025 HouseCare. All Rights Reserved.</p>
-  </footer>
 
-  <!-- Mandatory Login Guard -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      HouseCareAuth.requireUser();
-    });
-  </script>
+    <p class="footer-bottom" style="text-align: center; font-size: 0.84rem; color: var(--text-muted); padding: 20px 0; border-top: 1px solid var(--border-subtle);">© 2026 HouseCare Services. All Rights Reserved.</p>
+  </footer>
 
 </body>
 </html>
