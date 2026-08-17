@@ -60,7 +60,10 @@ router.post("/send", async (req, res) => {
     });
 
     try {
-      const mailResult = await sendOTPEmail(normalizedEmail, otp);
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Email service timed out. Please try again.")), 12000)
+      );
+      const mailResult = await Promise.race([sendOTPEmail(normalizedEmail, otp), timeoutPromise]);
       
       const message = mailResult && mailResult.simulated
         ? `A verification code has been generated. (Note: Check Render server logs for OTP or configure SMTP in Render Environment).`
@@ -73,6 +76,13 @@ router.post("/send", async (req, res) => {
       });
     } catch (mailError) {
       console.error("Mailer error:", mailError.message);
+      // OTP is already saved — inform user to check server logs
+      if (mailError.message && mailError.message.includes("timed out")) {
+        return res.status(200).json({
+          message: `OTP generated. Email delivery delayed — please check Render logs or configure SMTP credentials properly.`,
+          expiresIn: 600
+        });
+      }
       return res.status(500).json({
         message: mailError.message || "Failed to send OTP to your email. Please verify SMTP settings."
       });

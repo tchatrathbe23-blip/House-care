@@ -305,11 +305,27 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Responsive */
+    /* --- Tablet --- */
     @media (max-width: 960px) {
       .page-shell { grid-template-columns: 1fr; }
-      .hero-pane { padding: 40px 24px 16px; }
-      .hero-pane h1 { max-width: none; }
+      .hero-pane { padding: 40px 24px 20px; gap: 16px; }
+      .hero-pane h1 { max-width: none; font-size: clamp(2rem, 7vw, 3rem); }
+      .hero-pane > p { font-size: 0.9rem; }
+      .form-pane { padding: 20px 24px 40px; }
+    }
+
+    /* --- Phone --- */
+    @media (max-width: 480px) {
+      .hero-pane { padding: 24px 16px 8px; gap: 8px; }
+      .hero-logo { font-size: 1.35rem; }
+      .hero-badge { font-size: 0.78rem; padding: 7px 13px; }
+      .hero-pane h1 { font-size: 1.85rem; letter-spacing: -0.025em; }
+      .hero-pane > p { font-size: 0.83rem; line-height: 1.5; }
+      .hero-features { display: none; }
+
+      .form-pane { padding: 12px 14px 32px; }
+      .card { padding: 24px 16px; border-radius: 18px; }
+      .submit-btn { min-height: 48px; font-size: 0.9rem; }
     }
   </style>
 </head>
