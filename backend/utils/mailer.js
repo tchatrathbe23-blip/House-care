@@ -76,7 +76,38 @@ const sendOTPEmail = async (email, otp) => {
     </div>
   `;
 
-  // 1. Check if Resend API is configured (HTTPS REST API - Works 100% on cloud platforms like Render)
+  // 1. Brevo (Sendinblue) HTTPS REST API — bypasses all SMTP port blocks on Render
+  if (process.env.BREVO_API_KEY) {
+    try {
+      const fromEmail = (process.env.SMTP_FROM || process.env.SMTP_USER || 'tchatrath_be23@thapar.edu').replace(/.*<(.+)>/, '$1').trim();
+      const fromName = 'HouseCare';
+      const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': process.env.BREVO_API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sender: { name: fromName, email: fromEmail },
+          to: [{ email }],
+          subject: `Your HouseCare Password Reset OTP: ${otp}`,
+          htmlContent
+        })
+      });
+
+      if (res.ok) {
+        console.log(`[Brevo API] Successfully sent OTP email to ${email}`);
+        return { success: true, simulated: false, otp };
+      } else {
+        const errorDetails = await res.text();
+        console.error(`[Brevo API Error]`, errorDetails);
+      }
+    } catch (apiErr) {
+      console.error(`[Brevo API Request Failed]`, apiErr.message);
+    }
+  }
+
+  // 2. Resend HTTPS REST API
   if (process.env.RESEND_API_KEY) {
     try {
       const res = await fetch('https://api.resend.com/emails', {
