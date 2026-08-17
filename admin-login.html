@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="auth.js" defer></script>
+  <script src="auth.js"></script>
   <style>
     :root {
       --primary: #0f8cff;
@@ -309,9 +309,6 @@
           </div>
 
           <button type="submit" id="loginBtn">Login to dashboard</button>
-          <button type="button" id="demoAdminBtn" style="width: 100%; margin-top: 10px; min-height: 42px; border-radius: 14px; border: 1.5px dashed var(--primary); background: rgba(15, 140, 255, 0.08); color: #0f8cff; font-weight: 600; font-size: 0.88rem; cursor: pointer;">
-            ⚡ Fill Demo Admin Credentials
-          </button>
         </form>
 
         <div class="card-footer">
@@ -326,21 +323,13 @@
       const form = document.getElementById("adminLoginForm");
       const button = document.getElementById("loginBtn");
       const alertBox = document.getElementById("alertBox");
-      const demoBtn = document.getElementById("demoAdminBtn");
-
-      if (demoBtn) {
-        demoBtn.addEventListener("click", () => {
-          document.getElementById("username").value = "admin";
-          document.getElementById("password").value = "password123";
-        });
-      }
 
       function showAlert(type, message) {
         alertBox.className = `alert ${type}`;
         alertBox.textContent = message;
       }
 
-      if (HouseCareAuth.getAdminToken() && HouseCareAuth.getAdmin()) {
+      if (window.HouseCareAuth && HouseCareAuth.getAdminToken && HouseCareAuth.getAdminToken() && HouseCareAuth.getAdmin()) {
         showAlert("success", "An admin session already exists. You can sign in again with another admin account if needed.");
       }
 
@@ -358,6 +347,10 @@
         button.innerHTML = '<span class="loading-dot"></span>Signing in';
 
         try {
+          if (!window.HouseCareAuth) {
+            throw new Error("Authentication module failed to load. Please refresh the page.");
+          }
+
           const payload = username.includes("@")
             ? { email: username, password }
             : { username, password };
