@@ -334,3 +334,78 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/* =========================================================
+   SERVICES FILTER & LIVE SEARCH (services.html)
+========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  const searchInput = document.getElementById("serviceSearch");
+  const serviceCards = document.querySelectorAll(".service-grid .service-card");
+
+  if (filterBtns.length === 0 && !searchInput) return;
+
+  let activeCategory = "all";
+  let searchQuery = "";
+
+  function applyFilters() {
+    let visibleCount = 0;
+
+    serviceCards.forEach((card) => {
+      const category = (card.getAttribute("data-category") || "").toLowerCase();
+      const name = (card.getAttribute("data-name") || "").toLowerCase();
+      const text = card.textContent.toLowerCase();
+
+      const matchesCategory =
+        activeCategory === "all" ||
+        category === activeCategory ||
+        (activeCategory === "pest" && (category === "pest" || category === "pest control"));
+
+      const matchesSearch =
+        !searchQuery ||
+        name.includes(searchQuery) ||
+        text.includes(searchQuery);
+
+      if (matchesCategory && matchesSearch) {
+        card.style.display = "";
+        visibleCount++;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    let noResultsMsg = document.getElementById("noServicesFound");
+    const grid = document.getElementById("serviceList") || document.querySelector(".service-grid");
+
+    if (visibleCount === 0) {
+      if (!noResultsMsg && grid) {
+        noResultsMsg = document.createElement("div");
+        noResultsMsg.id = "noServicesFound";
+        noResultsMsg.style.cssText = "grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--muted); font-size: 1.05rem;";
+        noResultsMsg.innerHTML = "🔍 No services found matching your criteria.";
+        grid.appendChild(noResultsMsg);
+      } else if (noResultsMsg) {
+        noResultsMsg.style.display = "block";
+      }
+    } else if (noResultsMsg) {
+      noResultsMsg.style.display = "none";
+    }
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeCategory = (btn.getAttribute("data-filter") || "all").toLowerCase();
+      applyFilters();
+    });
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.trim().toLowerCase();
+      applyFilters();
+    });
+  }
+});
+
