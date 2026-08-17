@@ -52,176 +52,315 @@
   <!-- ======================================================
        PAGE HEADER
   ====================================================== -->
-  <main class="page container" style="padding-top:50px;">
+  <main class="page container" style="padding-top:40px; padding-bottom: 60px;">
 
-    <header class="page-header" style="text-align:center; margin-bottom:30px;">
-      <h1>All Home Services</h1>
-      <p class="section-subtitle">
-        Filter by category or search to quickly find what you need.
+    <header class="page-header" style="text-align:center; margin-bottom:34px;">
+      <div class="hero-badge" style="display:inline-flex; align-items:center; gap:6px; background:rgba(0,163,255,0.1); color:var(--primary-dark); padding:6px 16px; border-radius:999px; font-size:0.84rem; font-weight:600; margin-bottom:12px;">
+        🛠️ 20+ Verified Home Care Services
+      </div>
+      <h1 style="font-size:clamp(2rem, 4vw, 2.8rem); font-weight:800; letter-spacing:-0.03em;">Explore All Home Services</h1>
+      <p class="section-subtitle" style="margin-bottom:24px;">
+        Fixed transparent rates • 100% Background-verified professionals • 7-day rework guarantee
       </p>
     </header>
 
     <!-- ======================================================
-         FILTER BAR
+         FILTER BAR & SEARCH
     ====================================================== -->
-    <section class="filter-bar card" style="margin-bottom:35px;">
-      <div class="filter-buttons">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="cleaning">Cleaning</button>
-        <button class="filter-btn" data-filter="electrical">Electrical</button>
-        <button class="filter-btn" data-filter="plumbing">Plumbing</button>
-        <button class="filter-btn" data-filter="pest">Pest Control</button>
+    <section class="filter-bar card" style="margin-bottom:35px; padding:18px 24px; display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div class="filter-buttons" style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button class="filter-btn active" data-filter="all">🌟 All Services</button>
+          <button class="filter-btn" data-filter="cleaning">🧹 Deep Cleaning</button>
+          <button class="filter-btn" data-filter="electrical">⚡ Electrical</button>
+          <button class="filter-btn" data-filter="plumbing">🔧 Plumbing</button>
+          <button class="filter-btn" data-filter="pest">🛡️ Pest Control</button>
+        </div>
       </div>
 
-      <input type="text" id="serviceSearch" placeholder="Search services (e.g. fan, kitchen, termite)..."
-        class="service-search" />
+      <input type="text" id="serviceSearch" placeholder="🔍 Search services (e.g. fan, deep clean, tap leak, termite, kitchen)..."
+        class="service-search" style="width:100%; padding:12px 18px; border-radius:12px; border:1px solid var(--border-subtle); font-size:0.95rem;" />
     </section>
 
     <!-- ======================================================
-         SERVICE LIST GRID
+         SERVICE LIST GRID (PRO)
     ====================================================== -->
     <section class="services">
-      <div class="service-grid" id="serviceList">
+      <div class="service-grid-pro" id="serviceList">
 
-        <!-- Cleaning -->
-        <div class="service-card" data-category="cleaning" data-name="Full Home Deep Cleaning">
-          <img src="deep.jpg" alt="Full home cleaning" />
-          <div class="service-body">
+        <!-- Cleaning 1 -->
+        <div class="service-card-pro" data-category="cleaning" data-name="Full Home Deep Cleaning">
+          <div class="card-img-wrap">
+            <img src="deep.jpg" alt="Full home deep cleaning" />
+            <span class="card-tag">Bestseller</span>
+            <span class="card-discount">Save 20%</span>
+          </div>
+          <div class="card-body">
             <h3>Full Home Deep Cleaning</h3>
-            <p>Complete top-to-bottom cleaning of your home including kitchen & bathrooms.</p>
-            <ul class="service-features">
-              <li>Up to 4 BHK homes</li>
-              <li>Eco-friendly chemicals</li>
-              <li>Approx. 4–6 hours</li>
+            <p class="card-desc">Comprehensive top-to-bottom sanitization for 1 BHK to 4 BHK apartments and villas.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Kitchen degreasing & chimney cleaning</li>
+              <li><span class="check">✔</span> Bathroom descaling & tile buffing</li>
+              <li><span class="check">✔</span> Eco-friendly hospital-grade chemicals</li>
             </ul>
-            <div class="service-meta">
-              <span class="badge">⭐ 4.9</span>
-              <span class="badge">From ₹1799</span>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹2,199</span>
+                <span class="price-current">From ₹1,799</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
             </div>
-            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
           </div>
         </div>
 
-        <div class="service-card" data-category="cleaning" data-name="Kitchen Cleaning">
-          <img src="housekeep.jpg" alt="Kitchen cleaning" />
-          <div class="service-body">
-            <h3>Kitchen Cleaning</h3>
-            <p>Degreasing of chimney, tiles, shelves and appliances.</p>
-            <ul class="service-features">
-              <li>Oil & stain removal</li>
-              <li>Disinfection of surfaces</li>
+        <!-- Cleaning 2 -->
+        <div class="service-card-pro" data-category="cleaning" data-name="Kitchen Deep Degreasing">
+          <div class="card-img-wrap">
+            <img src="housekeep.jpg" alt="Kitchen cleaning" />
+            <span class="card-tag">High Demand</span>
+            <span class="card-discount">Save ₹150</span>
+          </div>
+          <div class="card-body">
+            <h3>Kitchen Deep Degreasing</h3>
+            <p class="card-desc">Specialized oil and grime removal for stove tops, chimneys, cabinets, and splash tiles.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Non-corrosive heavy degreasers</li>
+              <li><span class="check">✔</span> Cabinet exterior & shelf sanitization</li>
+              <li><span class="check">✔</span> Sink drain descaling</li>
             </ul>
-            <div class="service-meta">
-              <span class="badge">From ₹599</span>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹749</span>
+                <span class="price-current">From ₹599</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
             </div>
-            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
           </div>
         </div>
 
-        <!-- Electrical -->
-        <div class="service-card" data-category="electrical" data-name="Ceiling Fan & Lights Installation">
-          <img src="fan.jpg" alt="Ceiling fan installation" />
-          <div class="service-body">
-            <h3>Ceiling Fan & Lights Installation</h3>
-            <p>Installation and replacement of fans, lights and decorative fixtures.</p>
-            <ul class="service-features">
-              <li>Safe wiring</li>
-              <li>Includes basic inspection</li>
+        <!-- Electrical 1 -->
+        <div class="service-card-pro" data-category="electrical" data-name="Ceiling Fan & Lights Installation">
+          <div class="card-img-wrap">
+            <img src="fan.jpg" alt="Ceiling fan installation" />
+            <span class="card-tag">Quick Service</span>
+            <span class="card-discount">Best Price</span>
+          </div>
+          <div class="card-body">
+            <h3>Ceiling Fan & Light Fixtures</h3>
+            <p class="card-desc">Precision installation and replacement of decorative lights, LED panels, and ceiling fans.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Heavy-duty anchors & secure wiring</li>
+              <li><span class="check">✔</span> Post-installation voltage test</li>
+              <li><span class="check">✔</span> 30-Day service warranty</li>
             </ul>
-            <div class="service-meta">
-              <span class="badge">From ₹249</span>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹349</span>
+                <span class="price-current">From ₹249</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
             </div>
-            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
           </div>
         </div>
 
-        <div class="service-card" data-category="electrical" data-name="Switch & Socket Repair">
-          <img src="electrician.jpg" alt="Switch repair" />
-          <div class="service-body">
-            <h3>Switch & Socket Repair</h3>
-            <p>Repair of non-working or sparking switches and sockets.</p>
-            <div class="service-meta">
-              <span class="badge">⚡ Emergency available</span>
+        <!-- Electrical 2 -->
+        <div class="service-card-pro" data-category="electrical" data-name="Switch & Socket Repair">
+          <div class="card-img-wrap">
+            <img src="electrician.jpg" alt="Switch repair" />
+            <span class="card-tag">Emergency Dispatch</span>
+            <span class="card-discount">Instant Help</span>
+          </div>
+          <div class="card-body">
+            <h3>Switch, Socket & MCB Repair</h3>
+            <p class="card-desc">Troubleshooting sparking sockets, power trips, burnt wiring, and circuit overload.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> High-precision multimeter diagnosis</li>
+              <li><span class="check">✔</span> Fire-retardant parts used</li>
+              <li><span class="check">✔</span> Immediate emergency dispatch</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹299</span>
+                <span class="price-current">From ₹199</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
             </div>
-            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
           </div>
         </div>
 
-        <!-- Plumbing -->
-        <div class="service-card" data-category="plumbing" data-name="Leakage Fix & Tap Replacement">
-          <img src="leak.jpg" alt="Leakage fix" />
-          <div class="service-body">
+        <!-- Plumbing 1 -->
+        <div class="service-card-pro" data-category="plumbing" data-name="Leakage Fix & Tap Replacement">
+          <div class="card-img-wrap">
+            <img src="leak.jpg" alt="Leakage fix" />
+            <span class="card-tag">Fast Fix</span>
+            <span class="card-discount">Top Rated</span>
+          </div>
+          <div class="card-body">
             <h3>Leakage Fix & Tap Replacement</h3>
-            <p>Fix water leaks, change faucets and repair pipe issues.</p>
-            <div class="service-meta">
-              <span class="badge">From ₹299</span>
+            <p class="card-desc">Permanent resolution for leaking faucets, dripping angle valves, and seepage pipes.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Zero-damage pipe threading</li>
+              <li><span class="check">✔</span> Premium washers & Teflon seals</li>
+              <li><span class="check">✔</span> ₹10,000 damage protection cover</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹399</span>
+                <span class="price-current">From ₹299</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
             </div>
-            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
           </div>
         </div>
 
-        <div class="service-card" data-category="plumbing" data-name="Bathroom Fittings Installation">
-          <img src="plumber.jpg" alt="Bathroom fittings" />
-          <div class="service-body">
-            <h3>Bathroom Fittings Installation</h3>
-            <p>Installation of shower, jet spray, geyser inlet/outlet etc.</p>
-            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+        <!-- Plumbing 2 -->
+        <div class="service-card-pro" data-category="plumbing" data-name="Bathroom Fittings Installation">
+          <div class="card-img-wrap">
+            <img src="plumber.jpg" alt="Bathroom fittings" />
+            <span class="card-tag">Master Plumber</span>
+            <span class="card-discount">Popular</span>
+          </div>
+          <div class="card-body">
+            <h3>Sanitary & Shower Fitting</h3>
+            <p class="card-desc">Fitting showers, hand faucets, geyser inlets, wash basins, and premium sanitaryware.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Precision tile drilling without cracks</li>
+              <li><span class="check">✔</span> Pressure regulation testing</li>
+              <li><span class="check">✔</span> 30-Day workmanship warranty</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹499</span>
+                <span class="price-current">From ₹349</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+            </div>
           </div>
         </div>
 
-        <!-- Pest -->
-        <div class="service-card" data-category="pest" data-name="Cockroach & Ant Control">
-          <img src="cockroach.jpg" alt="Cockroach control" />
-          <div class="service-body">
-            <h3>Cockroach & Ant Control</h3>
-            <p>Odourless gel and spray treatment for full protection.</p>
-            <div class="service-meta">
-              <span class="badge">🛡 3-month warranty</span>
+        <!-- Pest 1 -->
+        <div class="service-card-pro" data-category="pest" data-name="Cockroach & Ant Control">
+          <div class="card-img-wrap">
+            <img src="cockroach.jpg" alt="Cockroach control" />
+            <span class="card-tag">100% Odorless</span>
+            <span class="card-discount">3-Mo Warranty</span>
+          </div>
+          <div class="card-body">
+            <h3>Cockroach & Ant Defense</h3>
+            <p class="card-desc">Advanced gel baiting and odorless chemical spray targeting hidden nesting areas.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Safe around food, kids, and pets</li>
+              <li><span class="check">✔</span> No kitchen vacation needed</li>
+              <li><span class="check">✔</span> Free follow-up if pests reappear</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹999</span>
+                <span class="price-current">From ₹699</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
             </div>
-            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
           </div>
         </div>
 
-        <div class="service-card" data-category="pest" data-name="Termite Control">
-          <img src="pest.jpg" alt="Termite control" />
-          <div class="service-body">
-            <h3>Termite Control</h3>
-            <p>Drilling and chemical treatment to protect wooden furniture.</p>
-            <div class="service-meta">
-              <span class="badge">🛡 1-year warranty</span>
+        <!-- Pest 2 -->
+        <div class="service-card-pro" data-category="pest" data-name="Termite Drill & Shield">
+          <div class="card-img-wrap">
+            <img src="pest.jpg" alt="Termite control" />
+            <span class="card-tag">Heavy Duty</span>
+            <span class="card-discount">1-Yr Warranty</span>
+          </div>
+          <div class="card-body">
+            <h3>Termite Drill & Shield</h3>
+            <p class="card-desc">High-potency subterranean termite control with chemical barrier injection.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Deep drill injection in baseboards</li>
+              <li><span class="check">✔</span> Preserves wooden furniture</li>
+              <li><span class="check">✔</span> Comprehensive 1-year warranty certificate</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹1,499</span>
+                <span class="price-current">From ₹1,199</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
             </div>
-            <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
           </div>
         </div>
 
       </div>
     </section>
-    <section class="price-section reveal">
-      <h2 class="section-title">Estimate Your Service Cost</h2>
 
-      <div class="price-card">
+    <!-- ======================================================
+         ESTIMATE YOUR COST SECTION
+    ====================================================== -->
+    <section class="price-section reveal" style="margin-top: 60px;">
+      <h2 class="section-title">Instant Service Cost Estimator</h2>
+      <p class="section-subtitle">Calculate estimated costs before booking. No surprise fees.</p>
 
-        <label for="calcService">Choose a Service</label>
-        <select id="calcService">
-          <option value="">-- Select Service --</option>
-          <option value="cleaning">Home Cleaning</option>
-          <option value="electrician">Electrician</option>
-          <option value="plumber">Plumber</option>
-          <option value="pest">Pest Control</option>
-        </select>
+      <div class="price-card card" style="max-width: 580px; margin: 0 auto; padding: 32px;">
 
-        <label for="calcHours">Hours Required</label>
-        <input type="number" id="calcHours" min="1" value="1" />
+        <div style="margin-bottom: 16px;">
+          <label for="calcService" style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 6px;">Choose Service</label>
+          <select id="calcService" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border-subtle); font-size: 0.95rem;">
+            <option value="">-- Select Service --</option>
+            <option value="cleaning">🧹 Full Home Cleaning (₹299/hr)</option>
+            <option value="electrician">⚡ Certified Electrician (₹199/hr)</option>
+            <option value="plumber">🔧 Master Plumber (₹249/hr)</option>
+            <option value="pest">🛡️ Pest & Termite Control (₹499/hr)</option>
+          </select>
+        </div>
 
-        <label for="calcUrgency">Urgency</label>
-        <select id="calcUrgency">
-          <option value="normal">Normal</option>
-          <option value="urgent">Urgent (+30%)</option>
-        </select>
+        <div style="margin-bottom: 16px;">
+          <label for="calcHours" style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 6px;">Estimated Hours Required</label>
+          <input type="number" id="calcHours" min="1" max="12" value="1" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border-subtle); font-size: 0.95rem;" />
+        </div>
 
-        <button id="calcBtn" class="btn btn-primary">Calculate Price</button>
+        <div style="margin-bottom: 22px;">
+          <label for="calcUrgency" style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 6px;">Booking Priority</label>
+          <select id="calcUrgency" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border-subtle); font-size: 0.95rem;">
+            <option value="normal">Standard Slot (Scheduled)</option>
+            <option value="urgent">Express Rapid Dispatch (+30%)</option>
+          </select>
+        </div>
 
-        <div id="calcResult" class="calc-result">Estimated Price: ₹0</div>
+        <button id="calcBtn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: 700;">Calculate Estimated Price</button>
+
+        <div id="calcResult" class="calc-result" style="margin-top: 18px; padding: 14px; background: rgba(0,163,255,0.1); border-radius: 12px; text-align: center; font-weight: 700; color: var(--primary-dark); font-size: 1.1rem; display: none;">Estimated Price: ₹0</div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         SERVICE STANDARDS / WHAT TO EXPECT
+    ====================================================== -->
+    <section class="section" style="margin-top: 40px;">
+      <h2 class="section-title">Our Quality Standards</h2>
+      <p class="section-subtitle">Every service adheres to strict safety, hygiene, and efficiency protocols.</p>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div style="font-size: 2rem; margin-bottom: 8px;">🧼</div>
+          <h4 style="margin-bottom: 6px;">Sanitized Equipment</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">All gear & toolkits sanitized before every home visit.</p>
+        </div>
+
+        <div class="stat-item">
+          <div style="font-size: 2rem; margin-bottom: 8px;">🧾</div>
+          <h4 style="margin-bottom: 6px;">Zero Hidden Fees</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Upfront quote approved before any work begins.</p>
+        </div>
+
+        <div class="stat-item">
+          <div style="font-size: 2rem; margin-bottom: 8px;">⏱️</div>
+          <h4 style="margin-bottom: 6px;">On-Time Guarantee</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">₹100 discount coupon if our expert is late by over 15 mins.</p>
+        </div>
+
+        <div class="stat-item">
+          <div style="font-size: 2rem; margin-bottom: 8px;">💳</div>
+          <h4 style="margin-bottom: 6px;">Post-Service Payment</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Inspect the completed job first, pay securely after.</p>
+        </div>
       </div>
     </section>
 

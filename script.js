@@ -40,17 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-open-booking]").forEach((btn) => {
     btn.addEventListener("click", () => {
       modal.style.display = "flex";
-      const serviceCard = btn.closest(".service-card");
+      const serviceCard = btn.closest(".service-card, .service-card-pro");
       const serviceInput = get("service");
+      const addressInput = get("address");
       
-      if (serviceCard) {
-        // Clicked from service card - pre-fill the specific service
-        const serviceName = serviceCard.querySelector("h3")?.innerText;
+      if (btn.id === "quickBookBtn") {
+        const quickService = get("quickService")?.value;
+        const quickCity = get("quickCity")?.value;
+        if (quickService && serviceInput) serviceInput.value = quickService;
+        if (quickCity && addressInput && !addressInput.value) {
+          addressInput.value = `${quickCity}, `;
+        }
+      } else if (serviceCard) {
+        const serviceName = serviceCard.getAttribute("data-name") || serviceCard.querySelector("h3")?.innerText;
         if (serviceName && serviceInput) {
           serviceInput.value = serviceName;
         }
       } else {
-        // Clicked from navbar or hero - clear service for all services
         if (serviceInput) {
           serviceInput.value = "";
         }
@@ -341,71 +347,82 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
   const filterBtns = document.querySelectorAll(".filter-btn");
   const searchInput = document.getElementById("serviceSearch");
-  const serviceCards = document.querySelectorAll(".service-grid .service-card");
+  const serviceCards = document.querySelectorAll(".service-grid .service-card, .service-grid-pro .service-card-pro, .service-grid .service-card-pro");
 
-  if (filterBtns.length === 0 && !searchInput) return;
+  if (filterBtns.length > 0 || searchInput) {
+    let activeCategory = "all";
+    let searchQuery = "";
 
-  let activeCategory = "all";
-  let searchQuery = "";
+    function applyFilters() {
+      let visibleCount = 0;
 
-  function applyFilters() {
-    let visibleCount = 0;
+      serviceCards.forEach((card) => {
+        const category = (card.getAttribute("data-category") || "").toLowerCase();
+        const name = (card.getAttribute("data-name") || "").toLowerCase();
+        const text = card.textContent.toLowerCase();
 
-    serviceCards.forEach((card) => {
-      const category = (card.getAttribute("data-category") || "").toLowerCase();
-      const name = (card.getAttribute("data-name") || "").toLowerCase();
-      const text = card.textContent.toLowerCase();
+        const matchesCategory =
+          activeCategory === "all" ||
+          category === activeCategory ||
+          category.includes(activeCategory) ||
+          (activeCategory === "pest" && (category === "pest" || category === "pest control"));
 
-      const matchesCategory =
-        activeCategory === "all" ||
-        category === activeCategory ||
-        (activeCategory === "pest" && (category === "pest" || category === "pest control"));
+        const matchesSearch =
+          !searchQuery ||
+          name.includes(searchQuery) ||
+          text.includes(searchQuery);
 
-      const matchesSearch =
-        !searchQuery ||
-        name.includes(searchQuery) ||
-        text.includes(searchQuery);
+        if (matchesCategory && matchesSearch) {
+          card.style.display = "";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
 
-      if (matchesCategory && matchesSearch) {
-        card.style.display = "";
-        visibleCount++;
-      } else {
-        card.style.display = "none";
+      let noResultsMsg = document.getElementById("noServicesFound");
+      const grid = document.getElementById("serviceList") || document.querySelector(".service-grid-pro") || document.querySelector(".service-grid");
+
+      if (visibleCount === 0) {
+        if (!noResultsMsg && grid) {
+          noResultsMsg = document.createElement("div");
+          noResultsMsg.id = "noServicesFound";
+          noResultsMsg.style.cssText = "grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 1.05rem;";
+          noResultsMsg.innerHTML = "🔍 No services found matching your criteria.";
+          grid.appendChild(noResultsMsg);
+        } else if (noResultsMsg) {
+          noResultsMsg.style.display = "block";
+        }
+      } else if (noResultsMsg) {
+        noResultsMsg.style.display = "none";
       }
+    }
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeCategory = (btn.getAttribute("data-filter") || "all").toLowerCase();
+        applyFilters();
+      });
     });
 
-    let noResultsMsg = document.getElementById("noServicesFound");
-    const grid = document.getElementById("serviceList") || document.querySelector(".service-grid");
-
-    if (visibleCount === 0) {
-      if (!noResultsMsg && grid) {
-        noResultsMsg = document.createElement("div");
-        noResultsMsg.id = "noServicesFound";
-        noResultsMsg.style.cssText = "grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--muted); font-size: 1.05rem;";
-        noResultsMsg.innerHTML = "🔍 No services found matching your criteria.";
-        grid.appendChild(noResultsMsg);
-      } else if (noResultsMsg) {
-        noResultsMsg.style.display = "block";
-      }
-    } else if (noResultsMsg) {
-      noResultsMsg.style.display = "none";
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        applyFilters();
+      });
     }
   }
 
-  filterBtns.forEach((btn) => {
+  // FAQ Accordion Listener
+  document.querySelectorAll(".faq-question").forEach((btn) => {
     btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      activeCategory = (btn.getAttribute("data-filter") || "all").toLowerCase();
-      applyFilters();
+      const item = btn.closest(".faq-item");
+      if (item) {
+        item.classList.toggle("open");
+      }
     });
   });
-
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value.trim().toLowerCase();
-      applyFilters();
-    });
-  }
 });
 

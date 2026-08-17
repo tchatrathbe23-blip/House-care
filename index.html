@@ -49,178 +49,403 @@
   </header>
 
   <!-- =============================
-       HERO SECTION
+       HERO SECTION (PROFESSIONAL)
   ============================= -->
-  <section class="hero">
-    <div class="hero-content">
+  <section class="hero-modern">
+    <div class="container">
 
-      <div class="hero-badge badge">🏡 Trusted by 10,000+ Happy Homes</div>
+      <div class="hero-badge">✨ India's #1 Rated On-Demand Home Care</div>
 
-      <h1 class="hero-title">Professional Housekeeping at Your Doorstep</h1>
+      <h1>World-Class Home Services, <span class="gradient-text">Delivered to Your Doorstep.</span></h1>
 
-      <p class="hero-subtitle">
-        Book certified cleaners, electricians, plumbers, and pest-control specialists in seconds with live tracking and instant updates.
+      <p class="hero-lead">
+        Certified cleaning specialists, expert electricians, master plumbers, and odorless pest control. Transparent pricing, ₹10,000 damage protection, and real-time GPS tracking.
       </p>
 
-      <div class="hero-actions">
-        <button class="btn btn-primary" data-open-booking>⚡ Book a Service</button>
-        <a href="services.html" class="btn btn-outline">Explore All Services</a>
-        <a href="tracking.html" class="btn btn-outline">📍 Live Tracking</a>
+      <!-- Quick Booking Bar -->
+      <div class="quick-booking-bar">
+        <div class="input-group">
+          <label for="quickService">1. Select Service</label>
+          <select id="quickService">
+            <option value="Home Cleaning">🧹 Full Home Deep Cleaning</option>
+            <option value="Electrician">⚡ Electrician & Repairs</option>
+            <option value="Plumber">🔧 Master Plumber & Leakages</option>
+            <option value="Pest Control">🛡️ Odorless Pest Control</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="quickCity">2. City / Location</label>
+          <select id="quickCity">
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi NCR">Delhi NCR</option>
+            <option value="Pune">Pune</option>
+            <option value="Hyderabad">Hyderabad</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-book-hero" id="quickBookBtn" data-open-booking>
+          ⚡ Book Instantly
+        </button>
       </div>
 
-      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 24px; font-size: 0.88rem; color: var(--text-muted);">
-        <span>⭐ <strong>4.9 / 5</strong> Verified Rating</span>
-        <span>🛡️ <strong>100%</strong> Background Verified</span>
+      <div class="trust-strip">
+        <span>⭐ <strong>4.9 / 5</strong> Rating (15,000+ Reviews)</span>
+        <span>🛡️ <strong>100%</strong> Background-Verified Pros</span>
         <span>⚡ <strong>30-Min</strong> Express Arrival</span>
+        <span>🔒 <strong>Pay Later</strong> or Online</span>
       </div>
 
     </div>
   </section>
 
   <!-- =============================
-       POPULAR SERVICES
+       LIVE STATS COUNTERS
   ============================= -->
-  <section class="services section">
-    <h2 class="section-title">Popular Services</h2>
-    <p class="section-subtitle">Most booked by HouseCare customers this month.</p>
-
-    <div class="service-grid">
-
-      <div class="service-card">
-        <img src="housekeep.jpg" alt="Home Cleaning" />
-        <div class="service-body">
-          <h3>Home Cleaning</h3>
-          <p>Deep and surface cleaning for your entire home with eco-friendly solutions.</p>
-          <div class="service-meta">
-            <span class="badge">⭐ 4.8</span>
-            <span class="badge">From ₹699</span>
-          </div>
-          <button class="btn btn-primary small-btn" data-open-booking>Book Cleaning</button>
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">35,000+</div>
+          <div class="stat-label">Homes Cleaned & Serviced</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">4.9 / 5</div>
+          <div class="stat-label">Verified Customer Rating</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Police & Background Checked</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">30 Mins</div>
+          <div class="stat-label">Average Response Time</div>
         </div>
       </div>
-
-      <div class="service-card">
-        <img src="electrician.jpg" alt="Electrician" />
-        <div class="service-body">
-          <h3>Electrician</h3>
-          <p>Safe wiring, fixture installation, appliances, and emergency repairs.</p>
-          <div class="service-meta">
-            <span class="badge">⚡ Express</span>
-            <span class="badge">From ₹249</span>
-          </div>
-          <button class="btn btn-primary small-btn" data-open-booking>Book Electrician</button>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <img src="plumber.jpg" alt="Plumber" />
-        <div class="service-body">
-          <h3>Plumber</h3>
-          <p>Leaks, drain blockages, pipe fittings, and bath fixtures done right.</p>
-          <div class="service-meta">
-            <span class="badge">⭐ 4.7</span>
-            <span class="badge">From ₹299</span>
-          </div>
-          <button class="btn btn-primary small-btn" data-open-booking>Book Plumber</button>
-        </div>
-      </div>
-
-      <div class="service-card">
-        <img src="pest.jpg" alt="Pest Control" />
-        <div class="service-body">
-          <h3>Pest Control</h3>
-          <p>Odourless & safe pest management for termites, cockroaches, and pests.</p>
-          <div class="service-meta">
-            <span class="badge">🛡 6-month warranty</span>
-            <span class="badge">From ₹799</span>
-          </div>
-          <button class="btn btn-primary small-btn" data-open-booking>Book Pest Control</button>
-        </div>
-      </div>
-
     </div>
   </section>
+
+  <!-- =============================
+       POPULAR SERVICES (PRO GRID)
+  ============================= -->
+  <section class="services section" style="padding-top: 20px;">
+    <div class="container">
+      <h2 class="section-title">Most Booked Services</h2>
+      <p class="section-subtitle">Top-rated home care packages with transparent fixed pricing and free rework guarantee.</p>
+
+      <div class="service-grid-pro">
+
+        <!-- Home Cleaning -->
+        <div class="service-card-pro" data-name="Home Cleaning">
+          <div class="card-img-wrap">
+            <img src="housekeep.jpg" alt="Home Deep Cleaning" />
+            <span class="card-tag">Bestseller</span>
+            <span class="card-discount">Save 25%</span>
+          </div>
+          <div class="card-body">
+            <h3>Full Home Deep Cleaning</h3>
+            <p class="card-desc">Intensive floor scrub, kitchen degreasing, bathroom descaling & dust removal.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> 100% Eco-safe chemicals</li>
+              <li><span class="check">✔</span> Mechanized scrubbing machines</li>
+              <li><span class="check">✔</span> 7-Day clean warranty</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹999</span>
+                <span class="price-current">From ₹699</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Electrician -->
+        <div class="service-card-pro" data-name="Electrician">
+          <div class="card-img-wrap">
+            <img src="electrician.jpg" alt="Professional Electrician" />
+            <span class="card-tag">Express Arrival</span>
+            <span class="card-discount">Popular</span>
+          </div>
+          <div class="card-body">
+            <h3>Expert Electrician & Wiring</h3>
+            <p class="card-desc">MCB tripping, appliance install, short circuit diagnosis, fan & fancy lights.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Certified & licensed electricians</li>
+              <li><span class="check">✔</span> Standardized toolkits & testing</li>
+              <li><span class="check">✔</span> 30-Day service warranty</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹349</span>
+                <span class="price-current">From ₹249</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Plumber -->
+        <div class="service-card-pro" data-name="Plumber">
+          <div class="card-img-wrap">
+            <img src="plumber.jpg" alt="Plumbing Service" />
+            <span class="card-tag">Emergency Ready</span>
+            <span class="card-discount">Top Rated</span>
+          </div>
+          <div class="card-body">
+            <h3>Master Plumbing Solutions</h3>
+            <p class="card-desc">Leak detection, drain unclogging, tap/faucet replacements & bath fittings.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Zero-mess guaranteed</li>
+              <li><span class="check">✔</span> Genuine spare parts support</li>
+              <li><span class="check">✔</span> ₹10k damage protection</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹429</span>
+                <span class="price-current">From ₹299</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pest Control -->
+        <div class="service-card-pro" data-name="Pest Control">
+          <div class="card-img-wrap">
+            <img src="pest.jpg" alt="Pest Control" />
+            <span class="card-tag">Certified Safe</span>
+            <span class="card-discount">Save ₹200</span>
+          </div>
+          <div class="card-body">
+            <h3>Odorless Pest & Termite Shield</h3>
+            <p class="card-desc">Govt-approved odorless gel & spray for complete removal of pests & termites.</p>
+            <ul class="feature-bullets">
+              <li><span class="check">✔</span> Child & pet friendly formulas</li>
+              <li><span class="check">✔</span> Free follow-up inspection</li>
+              <li><span class="check">✔</span> 6-Month warranty</li>
+            </ul>
+            <div class="card-footer">
+              <div class="pricing-wrap">
+                <span class="price-orig">₹999</span>
+                <span class="price-current">From ₹799</span>
+              </div>
+              <button class="btn btn-primary small-btn" data-open-booking>Book Now</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align: center; margin-top: 36px;">
+        <a href="services.html" class="btn btn-outline" style="padding: 12px 28px; font-weight: 600;">
+          Explore All 20+ Home Services →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================
+       HOW IT WORKS
+  ============================= -->
+  <section class="section" style="background: rgba(0, 163, 255, 0.03); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+    <div class="container">
+      <h2 class="section-title">How HouseCare Works</h2>
+      <p class="section-subtitle">Effortless 3-step process to get professional home care in minutes.</p>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-step-num">01</div>
+          <h3>Select & Schedule</h3>
+          <p>Choose your required service package, pick your preferred date and convenient time slot in 30 seconds.</p>
+        </div>
+
+        <div class="process-card">
+          <div class="process-step-num">02</div>
+          <h3>Live GPS Tracking</h3>
+          <p>A background-verified professional is dispatched. Track their real-time arrival location straight from your browser.</p>
+        </div>
+
+        <div class="process-card">
+          <div class="process-step-num">03</div>
+          <h3>Inspect & Pay</h3>
+          <p>Enjoy flawless 5-star service. Pay securely online or cash only after you are 100% satisfied with the work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================
+       COMPARISON: HOUSECARE VS LOCAL
+  ============================= -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Why Choose HouseCare?</h2>
+      <p class="section-subtitle">See how we compare against unverified local contractors and freelancers.</p>
+
+      <div class="comparison-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature / Guarantee</th>
+              <th class="highlight-col">✨ HouseCare</th>
+              <th>Ordinary Local Contractors</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feature-name">Background & Police Verification</td>
+              <td class="highlight-cell">✔ 100% Verified with ID Checks</td>
+              <td class="muted-cell">✖ Unchecked / High Risk</td>
+            </tr>
+            <tr>
+              <td class="feature-name">Pricing Transparency</td>
+              <td class="highlight-cell">✔ Upfront Fixed Rates, No Surprises</td>
+              <td class="muted-cell">✖ Unpredictable & Hidden Costs</td>
+            </tr>
+            <tr>
+              <td class="feature-name">Live Real-Time GPS Tracking</td>
+              <td class="highlight-cell">✔ Real-time tracking on live map</td>
+              <td class="muted-cell">✖ Endless phone calls & delays</td>
+            </tr>
+            <tr>
+              <td class="feature-name">Damage Protection Cover</td>
+              <td class="highlight-cell">✔ ₹10,000 Insurance Cover</td>
+              <td class="muted-cell">✖ Zero accountability</td>
+            </tr>
+            <tr>
+              <td class="feature-name">Re-work Warranty</td>
+              <td class="highlight-cell">✔ Up to 30 Days Free Re-work</td>
+              <td class="muted-cell">✖ No post-job support</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================
+       GUARANTEE BANNER
+  ============================= -->
+  <div class="container">
+    <div class="guarantee-banner">
+      <div class="guarantee-copy">
+        <h2>🛡️ 100% HouseCare Quality Promise</h2>
+        <p>If you're not completely satisfied with our service quality, our team will re-visit and rework the job completely free of charge within 7 days.</p>
+      </div>
+      <button class="btn btn-primary" style="background: #ffffff; color: var(--primary-dark); font-weight: 700; padding: 14px 26px;" data-open-booking>
+        Experience HouseCare Today
+      </button>
+    </div>
+  </div>
 
   <!-- =============================
        TESTIMONIALS
   ============================= -->
-  <section class="testimonials section">
-    <h2 class="section-title">What Our Customers Say</h2>
-    <p class="section-subtitle">Real feedback from verified homeowners across the country.</p>
+  <section class="testimonials section" style="padding-top: 10px;">
+    <div class="container">
+      <h2 class="section-title">What Our Customers Say</h2>
+      <p class="section-subtitle">Real feedback from verified homeowners across India.</p>
 
-    <div class="testi-container">
-      <!-- Prev -->
-      <button id="testiPrev" class="testi-arrow" aria-label="Previous Testimonial">
-        <span>❮</span>
-      </button>
+      <div class="testi-container">
+        <!-- Prev -->
+        <button id="testiPrev" class="testi-arrow" aria-label="Previous Testimonial">
+          <span>❮</span>
+        </button>
 
-      <!-- Slides -->
-      <div class="testi-item active">
-        <p class="testi-text">
-          “HouseCare made my 3BHK sparkle like new! The team was punctual,
-          professional, extremely thorough, and super friendly.”
-        </p>
-        <h4 class="testi-name">Riya Sharma</h4>
-        <p class="testi-location">Bengaluru • Verified Homeowner</p>
+        <!-- Slides -->
+        <div class="testi-item active">
+          <p class="testi-text">
+            “HouseCare made my 3BHK sparkle like new! The team was punctual,
+            professional, extremely thorough, and super friendly.”
+          </p>
+          <h4 class="testi-name">Riya Sharma</h4>
+          <p class="testi-location">Bengaluru • Verified Homeowner</p>
+        </div>
+
+        <div class="testi-item">
+          <p class="testi-text">
+            “The electrician fixed my MCB tripping issue in 20 minutes and explained everything clearly.
+            Extremely professional and affordable.”
+          </p>
+          <h4 class="testi-name">Aditya Verma</h4>
+          <p class="testi-location">New Delhi • Verified Customer</p>
+        </div>
+
+        <div class="testi-item">
+          <p class="testi-text">
+            “Booked pest control — clean treatment, zero harsh smell, and visible 
+            results within 24 hours. The live tracking feature is brilliant!”
+          </p>
+          <h4 class="testi-name">Neha & Arjun</h4>
+          <p class="testi-location">Pune • Verified Homeowners</p>
+        </div>
+
+        <!-- Next -->
+        <button id="testiNext" class="testi-arrow" aria-label="Next Testimonial">
+          <span>❯</span>
+        </button>
       </div>
 
-      <div class="testi-item">
-        <p class="testi-text">
-          “The electrician fixed my MCB tripping issue in 20 minutes and explained everything clearly.
-          Extremely professional and affordable.”
-        </p>
-        <h4 class="testi-name">Aditya Verma</h4>
-        <p class="testi-location">New Delhi • Verified Customer</p>
+      <!-- Dots -->
+      <div class="testi-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
       </div>
-
-      <div class="testi-item">
-        <p class="testi-text">
-          “Booked pest control — clean treatment, zero harsh smell, and visible 
-          results within 24 hours. The live tracking feature is brilliant!”
-        </p>
-        <h4 class="testi-name">Neha & Arjun</h4>
-        <p class="testi-location">Pune • Verified Homeowners</p>
-      </div>
-
-      <!-- Next -->
-      <button id="testiNext" class="testi-arrow" aria-label="Next Testimonial">
-        <span>❯</span>
-      </button>
-    </div>
-
-    <!-- Dots -->
-    <div class="testi-dots">
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
     </div>
   </section>
 
   <!-- =============================
-       ABOUT PREVIEW
+       FAQ ACCORDION
   ============================= -->
-  <section class="about section">
-    <div class="container about-inner">
+  <section class="section" style="padding-top: 10px;">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">Quick answers to common questions about our services.</p>
 
-      <div class="about-copy">
-        <h3>Why Homeowners Rely On Us</h3>
-        <p>
-          HouseCare connects you with verified, vetted professionals for every kind of home
-          maintenance. From deep sanitization to emergency fixes, experience true peace of mind.
-        </p>
+      <div class="faq-wrap">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Are the service professionals background-checked?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Yes, 100%. Every HouseCare professional undergoes mandatory government ID verification, criminal background checks, and practical skills training before being dispatched.
+          </div>
+        </div>
 
-        <ul class="about-points">
-          <li>✔ 100% Background-verified professionals</li>
-          <li>✔ Upfront pricing with no hidden charges</li>
-          <li>✔ Live GPS tracking and real-time status alerts</li>
-          <li>✔ 24/7 dedicated customer support & satisfaction guarantee</li>
-        </ul>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What if I need to reschedule or cancel my booking?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            You can reschedule or cancel at any time with zero cancellation fee up to 2 hours before the scheduled service time directly through your dashboard.
+          </div>
+        </div>
 
-        <a href="about.html" class="btn btn-outline" style="margin-top: 1.2rem;">Know More About Us</a>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How does the live GPS tracking work?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Once your service professional departs for your address, you receive a real-time tracking link with live map updates and estimated arrival time.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I pay after the service is completed?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Absolutely! You can choose "Confirm (Pay Later)" during booking and only pay once you have inspected and approved the completed work.
+          </div>
+        </div>
       </div>
-
-      <img src="housecare.jpg" alt="HouseCare home services team" style="border-radius: 18px; box-shadow: var(--shadow-soft);" />
-
     </div>
   </section>
 

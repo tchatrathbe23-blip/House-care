@@ -70,22 +70,20 @@ router.post("/send", async (req, res) => {
       mailResult = { simulated: true, error: err.message, otp };
     }
 
-    const isDev = process.env.NODE_ENV !== "production";
     const isSimulated = !mailResult || mailResult.simulated || !mailResult.success;
 
     let message;
     if (!isSimulated) {
-      message = `A 6-digit OTP verification code has been sent to ${normalizedEmail}. Please check your inbox.`;
+      message = `A 6-digit OTP verification code has been sent to ${normalizedEmail}. Please check your inbox (and spam folder).`;
     } else if (mailResult && mailResult.error) {
-      message = `OTP generated. Email service encountered a timeout/delay. Please check your inbox/spam folder or use the OTP provided.`;
+      message = `A verification code has been dispatched. Please check your inbox or spam folder.`;
     } else {
-      message = `A verification code has been generated for ${normalizedEmail}.`;
+      message = `A verification code has been generated for ${normalizedEmail}. Please check your email inbox.`;
     }
 
     return res.status(200).json({
       message,
-      expiresIn: 600,
-      ...(isSimulated || isDev ? { devOtp: otp } : {})
+      expiresIn: 600
     });
   } catch (error) {
     console.error("Send OTP Error:", error);
