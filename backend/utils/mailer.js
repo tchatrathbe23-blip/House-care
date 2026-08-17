@@ -1,40 +1,46 @@
 const nodemailer = require('nodemailer');
 
 const getTransporter = () => {
-  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
-    const isGmail = (process.env.SMTP_HOST || "").toLowerCase().includes("gmail");
-    
-    if (isGmail) {
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const host = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const isGmail = host.toLowerCase().includes('gmail');
+    const port = Number(process.env.SMTP_PORT) || 587;
+    const secure = port === 465;
+
+    if (isGmail && !process.env.SMTP_HOST) {
       return nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS.replace(/\s+/g, '')
         },
-        connectionTimeout: 10000,
-        greetingTimeout: 10000,
-        socketTimeout: 10000,
+        connectionTimeout: 7000,
+        greetingTimeout: 7000,
+        socketTimeout: 7000,
       });
     }
 
     return nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: Number(process.env.SMTP_PORT) === 465,
+      host,
+      port,
+      secure,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS.replace(/\s+/g, '')
       },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
+      tls: {
+        rejectUnauthorized: false
+      },
+      connectionTimeout: 7000,
+      greetingTimeout: 7000,
+      socketTimeout: 7000,
     });
   }
   return null;
 };
 
 const isMailConfigured = () => {
-  return !!(process.env.SMTP_HOST && process.env.SMTP_PORT && process.env.SMTP_USER && process.env.SMTP_PASS);
+  return !!(process.env.SMTP_USER && process.env.SMTP_PASS);
 };
 
 const sendOTPEmail = async (email, otp) => {
@@ -44,7 +50,7 @@ const sendOTPEmail = async (email, otp) => {
   
   if (!transporter) {
     console.warn(`[SMTP Warning] SMTP credentials (SMTP_USER/SMTP_PASS) not configured in environment. Logged OTP: ${otp}`);
-    return { simulated: true, otp };
+    return { success: false, simulated: true, otp };
   }
 
   const mailOptions = {
@@ -78,10 +84,16 @@ const sendOTPEmail = async (email, otp) => {
     `
   };
 
-  await transporter.sendMail(mailOptions);
-  console.log(`[SMTP] Successfully dispatched OTP email to ${email}`);
-  return { simulated: false, otp };
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`[SMTP] Successfully dispatched OTP email to ${email}`);
+    return { success: true, simulated: false, otp };
+  } catch (err) {
+    console.error(`[SMTP Warning] Failed to send email via SMTP (${err.message}). OTP for ${email} is: ${otp}`);
+    return { success: false, simulated: true, error: err.message, otp };
+  }
 };
 
 module.exports = { sendOTPEmail, isMailConfigured };
+
 
