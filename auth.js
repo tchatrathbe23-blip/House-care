@@ -270,19 +270,31 @@
     authArea.style.cssText = "display:flex;align-items:center;gap:0.6rem;";
 
     if (token && user) {
-      // Logged in — show user greeting + logout
+      // Logged in — show modern user chip + avatar + logout
+      const userChip = document.createElement("div");
+      userChip.className = "hc-user-chip";
+      userChip.style.cssText = "display:flex;align-items:center;gap:8px;padding:3px 8px 3px 4px;background:rgba(0,163,255,0.08);border-radius:999px;border:1px solid rgba(0,163,255,0.18);";
+
+      const avatar = document.createElement("div");
+      avatar.className = "hc-avatar";
+      const initial = (user.name || user.email || "U").trim().charAt(0).toUpperCase();
+      avatar.textContent = initial;
+      avatar.style.cssText = "width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#00a3ff,#0066cc);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.84rem;box-shadow:0 2px 6px rgba(0,163,255,0.25);";
+
       const greeting = document.createElement("span");
       greeting.className = "hc-user-greeting";
       greeting.textContent = `Hi, ${user.name?.split(" ")[0] || "User"}`;
-      greeting.style.cssText = "font-size:0.88rem;font-weight:600;color:var(--text-main);white-space:nowrap;";
+      greeting.style.cssText = "font-size:0.86rem;font-weight:600;color:var(--text-main);white-space:nowrap;";
 
       const logoutBtn = document.createElement("button");
       logoutBtn.className = "logout-btn";
       logoutBtn.textContent = "Logout";
       logoutBtn.addEventListener("click", () => logoutUser());
 
-      authArea.appendChild(greeting);
-      authArea.appendChild(logoutBtn);
+      userChip.appendChild(avatar);
+      userChip.appendChild(greeting);
+      userChip.appendChild(logoutBtn);
+      authArea.appendChild(userChip);
     } else {
       // Not logged in — show login button
       const loginLink = document.createElement("a");
